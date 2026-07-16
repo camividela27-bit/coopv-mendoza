@@ -33,11 +33,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#1a2744] flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-blue-900 flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm">
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           <div className="text-center mb-8">
-            <img src="/logo-coopv.svg" alt="COOPV Mendoza" className="w-20 h-20 mx-auto mb-4" />
             <p className="text-amber-500 text-xs font-bold tracking-widest uppercase mb-2">
               COOPV MENDOZA
             </p>
@@ -59,7 +58,7 @@ export default function LoginPage() {
                 placeholder="Ej: 56483"
                 required
                 autoFocus
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-xl text-center focus:outline-none focus:ring-2 focus:ring-[#1a2744] focus:border-transparent"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-xl text-center focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent"
               />
             </div>
 
@@ -72,7 +71,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading || !nsu}
-              className="w-full bg-[#1a2744] text-white rounded-xl py-3.5 font-semibold text-base hover:bg-[#243460] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="w-full bg-blue-900 text-white rounded-xl py-3.5 font-semibold text-base hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {loading ? 'Verificando...' : 'Ingresar'}
             </button>

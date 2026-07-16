@@ -47,7 +47,7 @@ export default function AdminProductosPage() {
 
   return (
     <div className="min-h-screen">
-      <header className="bg-[#1a2744] text-white shadow-md sticky top-0 z-10">
+      <header className="bg-blue-900 text-white shadow-md sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
           <Link href="/admin" className="text-2xl text-white/70 hover:text-white">‹</Link>
           <div>
@@ -85,7 +85,7 @@ export default function AdminProductosPage() {
                     {producto.productor && (
                       <p className="text-sm text-gray-400">{producto.productor}</p>
                     )}
-                    <p className="text-sm font-medium text-amber-600 mt-0.5">
+                    <p className="text-sm font-medium text-blue-900 mt-0.5">
                       ${producto.precio.toLocaleString('es-AR', { minimumFractionDigits: 0 })}
                     </p>
                   </div>
@@ -96,7 +96,7 @@ export default function AdminProductosPage() {
                     className={`flex-shrink-0 px-3 py-1.5 rounded-xl text-sm font-semibold transition-colors ${
                       producto.disponible
                         ? 'bg-gray-100 text-gray-600 hover:bg-red-50 hover:text-red-600'
-                        : 'bg-amber-50 text-amber-700 hover:bg-amber-100'
+                        : 'bg-blue-50 text-blue-700 hover:bg-blue-100'
                     } disabled:opacity-50`}
                   >
                     {toggling === producto.id
