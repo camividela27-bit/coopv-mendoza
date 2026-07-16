@@ -57,11 +57,11 @@ export default async function AdminPedidosPage() {
 
   return (
     <div className="min-h-screen">
-      <header className="bg-green-800 text-white shadow-md sticky top-0 z-10">
+      <header className="bg-amber-700 text-white shadow-md sticky top-0 z-10">
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-3">
-          <Link href="/admin" className="text-2xl text-green-200 hover:text-white">‹</Link>
+          <Link href="/admin" className="text-2xl text-amber-100 hover:text-white">‹</Link>
           <div>
-            <p className="text-xs text-green-200">Admin</p>
+            <p className="text-xs text-amber-100">Admin</p>
             <h1 className="font-bold text-lg">Pedidos confirmados</h1>
           </div>
         </div>
@@ -76,16 +76,16 @@ export default async function AdminPedidosPage() {
         ) : (
           <>
             {/* Summary bar */}
-            <div className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-4 flex items-center justify-between">
+            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-4 flex items-center justify-between">
               <div>
-                <p className="text-green-800 font-bold text-lg">{typed.length} pedidos</p>
-                <p className="text-green-600 text-sm">en total</p>
+                <p className="text-amber-800 font-bold text-lg">{typed.length} pedidos</p>
+                <p className="text-amber-600 text-sm">en total</p>
               </div>
               <div className="text-right">
-                <p className="text-green-800 font-bold text-lg">
+                <p className="text-amber-800 font-bold text-lg">
                   ${totalGeneral.toLocaleString('es-AR', { minimumFractionDigits: 0 })}
                 </p>
-                <p className="text-green-600 text-sm">suma total</p>
+                <p className="text-amber-600 text-sm">suma total</p>
               </div>
             </div>
 
@@ -105,13 +105,13 @@ export default async function AdminPedidosPage() {
                         <p className="text-sm text-gray-500">NSU {pedido.socio?.nsu}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-green-700 text-lg">
+                        <p className="font-bold text-amber-600 text-lg">
                           ${total.toLocaleString('es-AR', { minimumFractionDigits: 0 })}
                         </p>
                         <span className={`text-xs px-2 py-0.5 rounded-full ${
                           pedido.estado === 'entregado'
                             ? 'bg-gray-100 text-gray-500'
-                            : 'bg-green-100 text-green-700'
+                            : 'bg-amber-100 text-amber-700'
                         }`}>
                           {pedido.estado}
                         </span>

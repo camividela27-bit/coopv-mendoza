@@ -18,14 +18,14 @@ export default async function AdminPage() {
 
   return (
     <div className="min-h-screen">
-      <header className="bg-green-800 text-white shadow-md">
+      <header className="bg-amber-700 text-white shadow-md">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center justify-between">
           <div>
-            <p className="text-xs text-green-200">COOPV Mendoza · Administración</p>
+            <p className="text-xs text-amber-100">COOPV Mendoza · Administración</p>
             <h1 className="font-bold text-lg">{session.nombre}</h1>
           </div>
           <form action={logout}>
-            <button type="submit" className="text-xs text-green-200 hover:text-white px-2 py-1">
+            <button type="submit" className="text-xs text-amber-100 hover:text-white px-2 py-1">
               Salir
             </button>
           </form>
@@ -35,7 +35,7 @@ export default async function AdminPage() {
       <div className="max-w-lg mx-auto px-4 py-6 space-y-3">
         <Link
           href="/admin/pedidos"
-          className="block bg-white border border-gray-200 rounded-2xl p-5 hover:border-green-400 hover:shadow-sm transition-all"
+          className="block bg-white border border-gray-200 rounded-2xl p-5 hover:border-amber-400 hover:shadow-sm transition-all"
         >
           <p className="font-bold text-gray-900 text-lg">📋 Ver pedidos</p>
           <p className="text-sm text-gray-500 mt-1">Todos los pedidos confirmados por los socios</p>
@@ -43,7 +43,7 @@ export default async function AdminPage() {
 
         <Link
           href="/admin/productos"
-          className="block bg-white border border-gray-200 rounded-2xl p-5 hover:border-green-400 hover:shadow-sm transition-all"
+          className="block bg-white border border-gray-200 rounded-2xl p-5 hover:border-amber-400 hover:shadow-sm transition-all"
         >
           <p className="font-bold text-gray-900 text-lg">🌿 Gestionar productos</p>
           <p className="text-sm text-gray-500 mt-1">Activar o desactivar disponibilidad de productos</p>

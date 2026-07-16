@@ -51,19 +51,19 @@ export default function PedidoPage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="text-center max-w-sm w-full">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl">
+          <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl">
             ✅
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">¡Pedido confirmado!</h2>
           <p className="text-gray-600 mb-1">Tu pedido fue registrado correctamente.</p>
-          <div className="bg-green-50 border border-green-200 rounded-xl p-4 my-5 text-sm text-green-800">
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 my-5 text-sm text-amber-800">
             <p className="font-semibold">📍 Retiro en Sede</p>
             <p className="mt-0.5">Primer viernes del mes</p>
-            <p className="mt-0.5 text-green-600">Pago en efectivo al retirar</p>
+            <p className="mt-0.5 text-amber-600">Pago en efectivo al retirar</p>
           </div>
           <button
             onClick={() => router.push('/catalogo')}
-            className="bg-green-700 text-white px-8 py-3 rounded-xl font-semibold w-full"
+            className="bg-amber-600 text-white px-8 py-3 rounded-xl font-semibold w-full"
           >
             Volver al catálogo
           </button>
@@ -75,17 +75,17 @@ export default function PedidoPage() {
   return (
     <div className="min-h-screen pb-8">
       {/* Header */}
-      <header className="bg-green-800 text-white sticky top-0 z-10 shadow-md">
+      <header className="bg-amber-700 text-white sticky top-0 z-10 shadow-md">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
           <button
             onClick={() => router.back()}
-            className="text-2xl text-green-200 hover:text-white"
+            className="text-2xl text-amber-100 hover:text-white"
             aria-label="Volver"
           >
             ‹
           </button>
           <div>
-            <p className="text-xs text-green-200">COOPV Mendoza</p>
+            <p className="text-xs text-amber-100">COOPV Mendoza</p>
             <h1 className="font-bold text-lg">Mi Pedido</h1>
           </div>
         </div>
@@ -93,9 +93,9 @@ export default function PedidoPage() {
 
       <div className="max-w-lg mx-auto px-4 py-4">
         {/* Pickup info */}
-        <div className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-5">
-          <p className="text-green-800 font-semibold text-sm">📍 Retiro en Sede</p>
-          <p className="text-green-700 text-sm mt-0.5">Primer viernes del mes · Pago en efectivo</p>
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-5">
+          <p className="text-amber-800 font-semibold text-sm">📍 Retiro en Sede</p>
+          <p className="text-amber-700 text-sm mt-0.5">Primer viernes del mes · Pago en efectivo</p>
         </div>
 
         {cart.length === 0 ? (
@@ -104,7 +104,7 @@ export default function PedidoPage() {
             <p className="text-gray-600 font-medium">Tu pedido está vacío</p>
             <button
               onClick={() => router.push('/catalogo')}
-              className="mt-4 text-green-700 font-semibold underline"
+              className="mt-4 text-amber-600 font-semibold underline"
             >
               Ver catálogo
             </button>
@@ -155,7 +155,7 @@ export default function PedidoPage() {
             <button
               onClick={confirmar}
               disabled={loading}
-              className="w-full bg-green-700 text-white py-4 rounded-2xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed active:scale-98 transition-transform"
+              className="w-full bg-amber-600 text-white py-4 rounded-2xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed active:scale-98 transition-transform"
             >
               {loading ? 'Confirmando...' : 'Confirmar pedido'}
             </button>
