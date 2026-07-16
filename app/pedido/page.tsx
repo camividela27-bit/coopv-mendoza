@@ -75,17 +75,17 @@ export default function PedidoPage() {
   return (
     <div className="min-h-screen pb-8">
       {/* Header */}
-      <header className="bg-amber-700 text-white sticky top-0 z-10 shadow-md">
+      <header className="bg-[#1a2744] text-white sticky top-0 z-10 shadow-md">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
           <button
             onClick={() => router.back()}
-            className="text-2xl text-amber-100 hover:text-white"
+            className="text-2xl text-white/70 hover:text-white"
             aria-label="Volver"
           >
             ‹
           </button>
           <div>
-            <p className="text-xs text-amber-100">COOPV Mendoza</p>
+            <p className="text-xs text-amber-400 font-bold tracking-wider uppercase">COOPV Mendoza</p>
             <h1 className="font-bold text-lg">Mi Pedido</h1>
           </div>
         </div>

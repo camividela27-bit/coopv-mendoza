@@ -18,14 +18,14 @@ export default async function AdminPage() {
 
   return (
     <div className="min-h-screen">
-      <header className="bg-amber-700 text-white shadow-md">
+      <header className="bg-[#1a2744] text-white shadow-md">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center justify-between">
           <div>
-            <p className="text-xs text-amber-100">COOPV Mendoza · Administración</p>
+            <p className="text-xs text-amber-400 font-bold tracking-wider uppercase">COOPV Mendoza · Admin</p>
             <h1 className="font-bold text-lg">{session.nombre}</h1>
           </div>
           <form action={logout}>
-            <button type="submit" className="text-xs text-amber-100 hover:text-white px-2 py-1">
+            <button type="submit" className="text-xs text-white/60 hover:text-white px-2 py-1">
               Salir
             </button>
           </form>

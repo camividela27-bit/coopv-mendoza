@@ -77,15 +77,15 @@ export default function CatalogoPage() {
   return (
     <div className="min-h-screen pb-28">
       {/* Header */}
-      <header className="bg-amber-700 text-white sticky top-0 z-10 shadow-md">
+      <header className="bg-[#1a2744] text-white sticky top-0 z-10 shadow-md">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center justify-between">
           <div>
-            <p className="text-xs text-amber-100">COOPV Mendoza</p>
+            <p className="text-xs text-amber-400 font-bold tracking-wider uppercase">COOPV Mendoza</p>
             <h1 className="font-bold text-lg leading-tight">Productos de Amigos</h1>
           </div>
           <button
             onClick={logout}
-            className="text-xs text-amber-100 hover:text-white transition-colors px-2 py-1"
+            className="text-xs text-white/60 hover:text-white transition-colors px-2 py-1"
           >
             Salir
           </button>

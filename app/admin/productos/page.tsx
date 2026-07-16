@@ -47,11 +47,11 @@ export default function AdminProductosPage() {
 
   return (
     <div className="min-h-screen">
-      <header className="bg-amber-700 text-white shadow-md sticky top-0 z-10">
+      <header className="bg-[#1a2744] text-white shadow-md sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
-          <Link href="/admin" className="text-2xl text-amber-100 hover:text-white">‹</Link>
+          <Link href="/admin" className="text-2xl text-white/70 hover:text-white">‹</Link>
           <div>
-            <p className="text-xs text-amber-100">Admin</p>
+            <p className="text-xs text-amber-400 font-bold tracking-wider uppercase">Admin</p>
             <h1 className="font-bold text-lg">Gestionar productos</h1>
           </div>
         </div>

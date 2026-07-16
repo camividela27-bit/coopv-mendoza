@@ -33,50 +33,55 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-[#1a2744] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <img src="/logo-coopv.svg" alt="Cooperativa PRÓ-VIDA Mendoza" className="w-24 h-24 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900">COOPV Mendoza</h1>
-          <p className="text-sm text-gray-500 mt-1">Unidad de Abastecimiento</p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-5">
-          <div>
-            <label htmlFor="nsu" className="block text-sm font-medium text-gray-700 mb-1.5">
-              Número de Socio (NSU)
-            </label>
-            <input
-              id="nsu"
-              type="number"
-              inputMode="numeric"
-              value={nsu}
-              onChange={e => setNsu(e.target.value)}
-              placeholder="Ej: 56483"
-              required
-              autoFocus
-              className="w-full border border-gray-300 rounded-xl px-4 py-3 text-xl text-center focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-            />
+        <div className="bg-white rounded-2xl shadow-2xl p-8">
+          <div className="text-center mb-8">
+            <img src="/logo-coopv.svg" alt="COOPV Mendoza" className="w-20 h-20 mx-auto mb-4" />
+            <p className="text-amber-500 text-xs font-bold tracking-widest uppercase mb-2">
+              COOPV MENDOZA
+            </p>
+            <h1 className="text-2xl font-bold text-slate-900">Bienvenido</h1>
+            <p className="text-sm text-gray-400 mt-1">Cooperativa de Amigo para Amigo</p>
           </div>
 
-          {error && (
-            <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3">
-              <p className="text-red-700 text-sm text-center">{error}</p>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label htmlFor="nsu" className="block text-sm font-medium text-gray-700 mb-1.5">
+                Número de Socio (NSU)
+              </label>
+              <input
+                id="nsu"
+                type="number"
+                inputMode="numeric"
+                value={nsu}
+                onChange={e => setNsu(e.target.value)}
+                placeholder="Ej: 56483"
+                required
+                autoFocus
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-xl text-center focus:outline-none focus:ring-2 focus:ring-[#1a2744] focus:border-transparent"
+              />
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={loading || !nsu}
-            className="w-full bg-amber-600 text-white rounded-xl py-3.5 font-semibold text-base hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {loading ? 'Verificando...' : 'Ingresar'}
-          </button>
-        </form>
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+                <p className="text-red-700 text-sm text-center">{error}</p>
+              </div>
+            )}
 
-        <p className="text-center text-xs text-gray-400 mt-5">
-          ¿Problemas para ingresar? Contactá a la coordinación.
-        </p>
+            <button
+              type="submit"
+              disabled={loading || !nsu}
+              className="w-full bg-[#1a2744] text-white rounded-xl py-3.5 font-semibold text-base hover:bg-[#243460] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {loading ? 'Verificando...' : 'Ingresar'}
+            </button>
+          </form>
+
+          <p className="text-center text-xs text-gray-400 mt-5">
+            Solo socios registrados pueden acceder.
+          </p>
+        </div>
       </div>
     </div>
   )
