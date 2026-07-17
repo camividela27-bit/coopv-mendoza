@@ -41,7 +41,14 @@ export async function POST(request: NextRequest) {
     path: '/',
   })
 
-  cookieStore.set('nombre', encodeURIComponent(socio.nombre), {
+  // Extract first name handling "APELLIDO, NOMBRE" and "NOMBRE APELLIDO" formats
+  const rawName = socio.nombre.includes(',')
+    ? (socio.nombre.split(',')[1]?.trim() ?? socio.nombre)
+    : socio.nombre
+  const firstName = rawName.split(/\s+/)[0] ?? rawName
+  const displayName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase()
+
+  cookieStore.set('nombre', displayName, {
     httpOnly: false,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',

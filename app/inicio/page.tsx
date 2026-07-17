@@ -27,10 +27,7 @@ export default function InicioPage() {
       .split('; ')
       .find(r => r.startsWith('nombre='))
       ?.split('=')[1]
-    if (raw) {
-      const first = decodeURIComponent(raw).split(' ')[0]
-      setNombre(first.charAt(0).toUpperCase() + first.slice(1).toLowerCase())
-    }
+    if (raw) setNombre(raw)
 
     fetch('/api/avisos')
       .then(r => r.json())
