@@ -24,7 +24,7 @@ export default function LoginPage() {
         setError(data.error || 'Error al ingresar')
         return
       }
-      router.push(data.is_admin ? '/admin' : '/catalogo')
+      router.push(data.is_admin ? '/admin' : '/inicio')
     } catch {
       setError('Error de conexión. Intentá de nuevo.')
     } finally {
@@ -41,7 +41,6 @@ export default function LoginPage() {
               COOPV MENDOZA
             </p>
             <h1 className="text-2xl font-bold text-slate-900">Bienvenido</h1>
-            <p className="text-sm text-gray-400 mt-1">Cooperativa de Amigo para Amigo</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
