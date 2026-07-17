@@ -31,7 +31,7 @@ export default function AdminComunicadosPage() {
       .catch(() => setLoadingList(false))
   }, [])
 
-  async function enviar(e: React.FormEvent) {
+  async function enviar(e: { preventDefault(): void }) {
     e.preventDefault()
     setSending(true)
     setError('')
