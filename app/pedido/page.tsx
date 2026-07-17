@@ -63,7 +63,7 @@ export default function PedidoPage() {
           </div>
           <button
             onClick={() => router.push('/catalogo')}
-            className="bg-blue-900 text-white px-8 py-3 rounded-xl font-semibold w-full"
+            className="bg-[#1c2b4b] text-white px-8 py-3 rounded-xl font-semibold w-full"
           >
             Volver al catálogo
           </button>
@@ -75,7 +75,7 @@ export default function PedidoPage() {
   return (
     <div className="min-h-screen pb-8">
       {/* Header */}
-      <header className="bg-blue-900 text-white sticky top-0 z-10 shadow-md">
+      <header className="bg-[#1c2b4b] text-white sticky top-0 z-10 shadow-md">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
           <button
             onClick={() => router.back()}
@@ -104,7 +104,7 @@ export default function PedidoPage() {
             <p className="text-gray-600 font-medium">Tu pedido está vacío</p>
             <button
               onClick={() => router.push('/catalogo')}
-              className="mt-4 text-blue-900 font-semibold underline"
+              className="mt-4 text-[#1c2b4b] font-semibold underline"
             >
               Ver catálogo
             </button>
@@ -155,7 +155,7 @@ export default function PedidoPage() {
             <button
               onClick={confirmar}
               disabled={loading}
-              className="w-full bg-blue-900 text-white py-4 rounded-2xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed active:scale-98 transition-transform"
+              className="w-full bg-[#1c2b4b] text-white py-4 rounded-2xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed active:scale-98 transition-transform"
             >
               {loading ? 'Confirmando...' : 'Confirmar pedido'}
             </button>

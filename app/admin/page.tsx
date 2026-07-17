@@ -18,7 +18,7 @@ export default async function AdminPage() {
 
   return (
     <div className="min-h-screen">
-      <header className="bg-blue-900 text-white shadow-md">
+      <header className="bg-[#1c2b4b] text-white shadow-md">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center justify-between">
           <div>
             <p className="text-xs text-amber-400 font-bold tracking-wider uppercase">COOPV Mendoza · Admin</p>

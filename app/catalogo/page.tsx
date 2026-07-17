@@ -77,7 +77,7 @@ export default function CatalogoPage() {
   return (
     <div className="min-h-screen pb-28">
       {/* Header */}
-      <header className="bg-blue-900 text-white sticky top-0 z-10 shadow-md">
+      <header className="bg-[#1c2b4b] text-white sticky top-0 z-10 shadow-md">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center justify-between">
           <div>
             <p className="text-xs text-amber-400 font-bold tracking-wider uppercase">COOPV Mendoza</p>
@@ -113,7 +113,7 @@ export default function CatalogoPage() {
                   {producto.productor && (
                     <p className="text-sm text-gray-500 truncate">{producto.productor}</p>
                   )}
-                  <p className="text-blue-900 font-bold mt-1 text-lg">
+                  <p className="text-[#1c2b4b] font-bold mt-1 text-lg">
                     ${producto.precio.toLocaleString('es-AR', { minimumFractionDigits: 0 })}
                   </p>
                   {producto.notas && (
@@ -127,7 +127,7 @@ export default function CatalogoPage() {
                     onClick={() => updateQty(producto, -1)}
                     disabled={qty === 0}
                     aria-label="Quitar uno"
-                    className="w-9 h-9 rounded-full border-2 border-blue-900 text-blue-900 text-xl font-bold flex items-center justify-center disabled:opacity-25 active:scale-95 transition-transform"
+                    className="w-9 h-9 rounded-full border-2 border-[#1c2b4b] text-[#1c2b4b] text-xl font-bold flex items-center justify-center disabled:opacity-25 active:scale-95 transition-transform"
                   >
                     −
                   </button>
@@ -137,7 +137,7 @@ export default function CatalogoPage() {
                   <button
                     onClick={() => updateQty(producto, 1)}
                     aria-label="Agregar uno"
-                    className="w-9 h-9 rounded-full bg-blue-900 text-white text-xl font-bold flex items-center justify-center active:scale-95 transition-transform"
+                    className="w-9 h-9 rounded-full bg-[#1c2b4b] text-white text-xl font-bold flex items-center justify-center active:scale-95 transition-transform"
                   >
                     +
                   </button>
@@ -154,7 +154,7 @@ export default function CatalogoPage() {
           <div className="max-w-lg mx-auto">
             <button
               onClick={() => router.push('/pedido')}
-              className="w-full bg-blue-900 text-white rounded-2xl py-4 flex items-center justify-between px-5 shadow-xl active:scale-98 transition-transform"
+              className="w-full bg-[#1c2b4b] text-white rounded-2xl py-4 flex items-center justify-between px-5 shadow-xl active:scale-98 transition-transform"
             >
               <div className="text-left">
                 <p className="text-xs text-white/70">

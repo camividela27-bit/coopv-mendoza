@@ -57,7 +57,7 @@ export default async function AdminPedidosPage() {
 
   return (
     <div className="min-h-screen">
-      <header className="bg-blue-900 text-white shadow-md sticky top-0 z-10">
+      <header className="bg-[#1c2b4b] text-white shadow-md sticky top-0 z-10">
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-3">
           <Link href="/admin" className="text-2xl text-white/70 hover:text-white">‹</Link>
           <div>
@@ -78,11 +78,11 @@ export default async function AdminPedidosPage() {
             {/* Summary bar */}
             <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-4 flex items-center justify-between">
               <div>
-                <p className="text-blue-900 font-bold text-lg">{typed.length} pedidos</p>
+                <p className="text-[#1c2b4b] font-bold text-lg">{typed.length} pedidos</p>
                 <p className="text-blue-700 text-sm">en total</p>
               </div>
               <div className="text-right">
-                <p className="text-blue-900 font-bold text-lg">
+                <p className="text-[#1c2b4b] font-bold text-lg">
                   ${totalGeneral.toLocaleString('es-AR', { minimumFractionDigits: 0 })}
                 </p>
                 <p className="text-blue-700 text-sm">suma total</p>
@@ -105,7 +105,7 @@ export default async function AdminPedidosPage() {
                         <p className="text-sm text-gray-500">NSU {pedido.socio?.nsu}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-blue-900 text-lg">
+                        <p className="font-bold text-[#1c2b4b] text-lg">
                           ${total.toLocaleString('es-AR', { minimumFractionDigits: 0 })}
                         </p>
                         <span className={`text-xs px-2 py-0.5 rounded-full ${

@@ -47,7 +47,7 @@ export default function AdminProductosPage() {
 
   return (
     <div className="min-h-screen">
-      <header className="bg-blue-900 text-white shadow-md sticky top-0 z-10">
+      <header className="bg-[#1c2b4b] text-white shadow-md sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
           <Link href="/admin" className="text-2xl text-white/70 hover:text-white">‹</Link>
           <div>
@@ -85,7 +85,7 @@ export default function AdminProductosPage() {
                     {producto.productor && (
                       <p className="text-sm text-gray-400">{producto.productor}</p>
                     )}
-                    <p className="text-sm font-medium text-blue-900 mt-0.5">
+                    <p className="text-sm font-medium text-[#1c2b4b] mt-0.5">
                       ${producto.precio.toLocaleString('es-AR', { minimumFractionDigits: 0 })}
                     </p>
                   </div>
