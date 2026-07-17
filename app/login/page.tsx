@@ -37,8 +37,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           <div className="text-center mb-8">
-            <img src="/logo-coopv.svg" alt="COOPV" className="w-16 h-16 mx-auto mb-3" />
-            <p className="text-amber-500 text-xs font-bold tracking-widest uppercase mb-2">
+<p className="text-amber-500 text-xs font-bold tracking-widest uppercase mb-2">
               COOPV MENDOZA
             </p>
             <h1 className="text-2xl font-bold text-slate-900">Bienvenido</h1>
