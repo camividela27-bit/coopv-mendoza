@@ -16,6 +16,7 @@ export interface Producto {
   productor: string | null
   disponible: boolean
   notas: string | null
+  stock: number | null
   created_at: string
 }
 

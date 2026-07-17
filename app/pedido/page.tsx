@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import AppHeader from '@/app/components/AppHeader'
 import type { CartItem } from '@/lib/types'
 
 const CART_KEY = 'coopv-cart'
@@ -49,50 +50,37 @@ export default function PedidoPage() {
 
   if (confirmed) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="text-center max-w-sm w-full">
-          <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl">
-            ✅
+      <div className="min-h-screen bg-gray-50">
+        <AppHeader />
+        <div className="flex flex-col items-center justify-center px-4 py-16">
+          <div className="text-center max-w-sm w-full">
+            <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl">
+              ✅
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">¡Pedido confirmado!</h2>
+            <p className="text-gray-600 mb-1">Tu pedido fue registrado correctamente.</p>
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 my-5 text-sm text-blue-800">
+              <p className="font-semibold">📍 Retiro en Sede</p>
+              <p className="mt-0.5">Primer viernes del mes</p>
+              <p className="mt-0.5 text-blue-700">Pago en efectivo al retirar</p>
+            </div>
+            <button
+              onClick={() => router.push('/inicio')}
+              className="bg-[#1c2b4b] text-white px-8 py-3 rounded-xl font-semibold w-full"
+            >
+              Volver al inicio
+            </button>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">¡Pedido confirmado!</h2>
-          <p className="text-gray-600 mb-1">Tu pedido fue registrado correctamente.</p>
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 my-5 text-sm text-blue-800">
-            <p className="font-semibold">📍 Retiro en Sede</p>
-            <p className="mt-0.5">Primer viernes del mes</p>
-            <p className="mt-0.5 text-blue-700">Pago en efectivo al retirar</p>
-          </div>
-          <button
-            onClick={() => router.push('/catalogo')}
-            className="bg-[#1c2b4b] text-white px-8 py-3 rounded-xl font-semibold w-full"
-          >
-            Volver al catálogo
-          </button>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen pb-8">
-      {/* Header */}
-      <header className="bg-[#1c2b4b] text-white sticky top-0 z-10 shadow-md">
-        <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
-          <button
-            onClick={() => router.back()}
-            className="text-2xl text-white/70 hover:text-white"
-            aria-label="Volver"
-          >
-            ‹
-          </button>
-          <div>
-            <p className="text-xs text-amber-400 font-bold tracking-wider uppercase">COOPV Mendoza</p>
-            <h1 className="font-bold text-lg">Mi Pedido</h1>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gray-50 pb-8">
+      <AppHeader />
 
       <div className="max-w-lg mx-auto px-4 py-4">
-        {/* Pickup info */}
         <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-5">
           <p className="text-blue-800 font-semibold text-sm">📍 Retiro en Sede</p>
           <p className="text-blue-700 text-sm mt-0.5">Primer viernes del mes · Pago en efectivo</p>
@@ -111,7 +99,6 @@ export default function PedidoPage() {
           </div>
         ) : (
           <>
-            {/* Items */}
             <div className="space-y-2.5 mb-5">
               {cart.map(item => (
                 <div
@@ -134,7 +121,6 @@ export default function PedidoPage() {
               ))}
             </div>
 
-            {/* Total */}
             <div className="bg-gray-100 rounded-2xl p-4 flex items-center justify-between mb-5">
               <span className="text-gray-700 font-semibold">Total a pagar</span>
               <span className="font-bold text-2xl text-gray-900">

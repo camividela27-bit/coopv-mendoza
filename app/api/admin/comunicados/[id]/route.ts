@@ -15,8 +15,8 @@ async function requireAdmin() {
   }
 }
 
-export async function PATCH(
-  request: NextRequest,
+export async function DELETE(
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   if (!await requireAdmin()) {
@@ -24,20 +24,7 @@ export async function PATCH(
   }
 
   const { id } = await params
-  const body = await request.json() as Record<string, unknown>
-
-  const updates: Record<string, unknown> = {}
-  if ('disponible' in body) updates.disponible = body.disponible
-  if ('stock' in body) updates.stock = body.stock
-
-  if (Object.keys(updates).length === 0) {
-    return Response.json({ error: 'Sin campos para actualizar' }, { status: 400 })
-  }
-
-  const { error } = await supabase
-    .from('productos')
-    .update(updates)
-    .eq('id', id)
+  const { error } = await supabase.from('comunicados').delete().eq('id', id)
 
   if (error) return Response.json({ error: error.message }, { status: 500 })
   return Response.json({ ok: true })
