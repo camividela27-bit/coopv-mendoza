@@ -132,8 +132,11 @@ export default function AdminProductosPage() {
                         </span>
                       )}
                     </div>
+                    {producto.detalles && (
+                      <p className="text-xs text-gray-400 mt-0.5">{producto.detalles}</p>
+                    )}
                     {producto.productor && (
-                      <p className="text-xs text-gray-400 mt-0.5">{producto.productor}</p>
+                      <p className="text-xs text-gray-400">{producto.productor}</p>
                     )}
                     <p className="text-sm font-semibold text-[#1c2b4b] mt-1">
                       ${producto.precio.toLocaleString('es-AR', { minimumFractionDigits: 0 })}

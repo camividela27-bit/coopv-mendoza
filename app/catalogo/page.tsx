@@ -21,8 +21,8 @@ export default function CatalogoPage() {
 
     fetch('/api/productos')
       .then(r => r.json())
-      .then((data: Producto[]) => setProductos(data))
-      .catch(() => { /* handled by empty state */ })
+      .then((data: unknown) => { if (Array.isArray(data)) setProductos(data as Producto[]) })
+      .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
 
@@ -77,15 +77,28 @@ export default function CatalogoPage() {
         ) : (
           productos.map(producto => {
             const qty = cart[producto.id]?.cantidad ?? 0
+            const sinStock = producto.stock === 0
             return (
               <div
                 key={producto.id}
-                className="bg-white rounded-2xl border border-gray-200 p-4 flex items-center gap-4"
+                className={`bg-white rounded-2xl border p-4 flex items-center gap-4 ${
+                  sinStock ? 'border-gray-100 opacity-60' : 'border-gray-200'
+                }`}
               >
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-gray-900 leading-snug">{producto.nombre}</p>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <p className="font-semibold text-gray-900 leading-snug">{producto.nombre}</p>
+                    {sinStock && (
+                      <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
+                        Sin stock
+                      </span>
+                    )}
+                  </div>
+                  {producto.detalles && (
+                    <p className="text-xs text-gray-400 mt-0.5 leading-snug">{producto.detalles}</p>
+                  )}
                   {producto.productor && (
-                    <p className="text-sm text-gray-500 truncate">{producto.productor}</p>
+                    <p className="text-xs text-gray-400 truncate">{producto.productor}</p>
                   )}
                   <p className="text-[#1c2b4b] font-bold mt-1 text-lg">
                     ${producto.precio.toLocaleString('es-AR', { minimumFractionDigits: 0 })}
@@ -98,7 +111,7 @@ export default function CatalogoPage() {
                 <div className="flex items-center gap-2.5 flex-shrink-0">
                   <button
                     onClick={() => updateQty(producto, -1)}
-                    disabled={qty === 0}
+                    disabled={qty === 0 || sinStock}
                     aria-label="Quitar uno"
                     className="w-9 h-9 rounded-full border-2 border-[#1c2b4b] text-[#1c2b4b] text-xl font-bold flex items-center justify-center disabled:opacity-25 active:scale-95 transition-transform"
                   >
@@ -109,8 +122,9 @@ export default function CatalogoPage() {
                   </span>
                   <button
                     onClick={() => updateQty(producto, 1)}
+                    disabled={sinStock}
                     aria-label="Agregar uno"
-                    className="w-9 h-9 rounded-full bg-[#1c2b4b] text-white text-xl font-bold flex items-center justify-center active:scale-95 transition-transform"
+                    className="w-9 h-9 rounded-full bg-[#1c2b4b] text-white text-xl font-bold flex items-center justify-center active:scale-95 transition-transform disabled:opacity-25"
                   >
                     +
                   </button>

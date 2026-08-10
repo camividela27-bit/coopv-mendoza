@@ -14,9 +14,9 @@ export interface Producto {
   nombre: string
   precio: number
   productor: string | null
-  disponible: boolean
   notas: string | null
   stock: number | null
+  detalles: string | null
   created_at: string
 }
 
