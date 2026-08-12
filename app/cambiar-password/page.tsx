@@ -3,33 +3,35 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-export default function LoginPage() {
+export default function CambiarPasswordPage() {
   const router = useRouter()
-  const [nsu, setNsu] = useState('')
   const [password, setPassword] = useState('')
+  const [confirm, setConfirm] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
+
+    if (password !== confirm) {
+      setError('Las contraseñas no coinciden')
+      return
+    }
+
     setLoading(true)
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch('/api/auth/change-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nsu: parseInt(nsu, 10), password }),
+        body: JSON.stringify({ password, confirm }),
       })
       const data = await res.json()
       if (!res.ok) {
-        setError(data.error || 'Error al ingresar')
+        setError(data.error || 'Error al guardar la contraseña')
         return
       }
-      if (data.must_change_password) {
-        router.push('/cambiar-password')
-      } else {
-        router.push(data.is_admin ? '/admin' : '/inicio')
-      }
+      router.push(data.is_admin ? '/admin' : '/inicio')
     } catch {
       setError('Error de conexión. Intentá de nuevo.')
     } finally {
@@ -45,39 +47,41 @@ export default function LoginPage() {
             <p className="text-amber-500 text-xs font-bold tracking-widest uppercase mb-2">
               COOPV MENDOZA
             </p>
-            <h1 className="text-2xl font-bold text-slate-900">Bienvenido</h1>
+            <h1 className="text-2xl font-bold text-slate-900">Elegí tu contraseña</h1>
+            <p className="text-sm text-gray-500 mt-2">
+              Es la primera vez que ingresás. Elegí una contraseña personal para las próximas veces.
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label htmlFor="nsu" className="block text-sm font-medium text-gray-700 mb-1.5">
-                Número de Socio (NSU)
-              </label>
-              <input
-                id="nsu"
-                type="number"
-                inputMode="numeric"
-                value={nsu}
-                onChange={e => setNsu(e.target.value)}
-                placeholder="Ej: 56483"
-                required
-                autoFocus
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-xl text-center text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1c2b4b] focus:border-transparent"
-              />
-            </div>
-
-            <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1.5">
-                Contraseña
+                Nueva contraseña
               </label>
               <input
                 id="password"
                 type="password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder="Mínimo 4 caracteres"
                 required
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-xl text-center text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1c2b4b] focus:border-transparent"
+                autoFocus
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1c2b4b] focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="confirm" className="block text-sm font-medium text-gray-700 mb-1.5">
+                Repetí la contraseña
+              </label>
+              <input
+                id="confirm"
+                type="password"
+                value={confirm}
+                onChange={e => setConfirm(e.target.value)}
+                placeholder="Igual que arriba"
+                required
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1c2b4b] focus:border-transparent"
               />
             </div>
 
@@ -89,16 +93,12 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              disabled={loading || !nsu || !password}
+              disabled={loading || !password || !confirm}
               className="w-full bg-[#1c2b4b] text-white rounded-xl py-3.5 font-semibold text-base hover:bg-[#243764] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              {loading ? 'Verificando...' : 'Ingresar'}
+              {loading ? 'Guardando...' : 'Guardar contraseña'}
             </button>
           </form>
-
-          <p className="text-center text-xs text-gray-400 mt-5">
-            La primera vez, usá tu NSU como contraseña.
-          </p>
         </div>
       </div>
     </div>

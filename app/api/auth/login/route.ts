@@ -2,18 +2,23 @@ import type { NextRequest } from 'next/server'
 import { cookies } from 'next/headers'
 import { supabase } from '@/lib/supabase'
 import { signToken } from '@/lib/auth'
+import bcrypt from 'bcryptjs'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
-  const { nsu } = body as { nsu: number }
+  const { nsu, password } = body as { nsu: number; password: string }
 
   if (!nsu || isNaN(nsu)) {
     return Response.json({ error: 'NSU inválido' }, { status: 400 })
   }
 
+  if (!password) {
+    return Response.json({ error: 'Ingresá tu contraseña' }, { status: 400 })
+  }
+
   const { data: socio, error } = await supabase
     .from('socios')
-    .select('id, nsu, nombre, is_admin, activo')
+    .select('id, nsu, nombre, is_admin, activo, password_hash, must_change_password')
     .eq('nsu', nsu)
     .single()
 
@@ -23,6 +28,15 @@ export async function POST(request: NextRequest) {
 
   if (!socio.activo) {
     return Response.json({ error: 'Cuenta inactiva. Contactá a la coordinación.' }, { status: 401 })
+  }
+
+  // Si no tiene hash, la contraseña inicial es el NSU como string
+  const valid = socio.password_hash
+    ? await bcrypt.compare(password, socio.password_hash)
+    : password === socio.nsu.toString()
+
+  if (!valid) {
+    return Response.json({ error: 'Contraseña incorrecta' }, { status: 401 })
   }
 
   const token = await signToken({
@@ -41,7 +55,6 @@ export async function POST(request: NextRequest) {
     path: '/',
   })
 
-  // Extract first name handling "APELLIDO, NOMBRE" and "NOMBRE APELLIDO" formats
   const rawName = socio.nombre.includes(',')
     ? (socio.nombre.split(',')[1]?.trim() ?? socio.nombre)
     : socio.nombre
@@ -56,5 +69,9 @@ export async function POST(request: NextRequest) {
     path: '/',
   })
 
-  return Response.json({ ok: true, is_admin: socio.is_admin })
+  return Response.json({
+    ok: true,
+    is_admin: socio.is_admin,
+    must_change_password: socio.must_change_password ?? true,
+  })
 }
