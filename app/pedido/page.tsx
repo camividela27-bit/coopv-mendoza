@@ -6,13 +6,18 @@ import AppHeader from '@/app/components/AppHeader'
 import type { CartItem } from '@/lib/types'
 
 const CART_KEY = 'coopv-cart'
+const ALIAS = 'coope.mza'
+const WA_NUMBER = '5492615869777'
 
 export default function PedidoPage() {
   const router = useRouter()
   const [cart, setCart] = useState<CartItem[]>([])
   const [confirmed, setConfirmed] = useState(false)
+  const [confirmedTotal, setConfirmedTotal] = useState(0)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [nombre, setNombre] = useState('')
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem(CART_KEY)
@@ -21,6 +26,11 @@ export default function PedidoPage() {
         setCart(Object.values(JSON.parse(saved) as Record<string, CartItem>))
       } catch { /* ignore */ }
     }
+    const raw = document.cookie
+      .split('; ')
+      .find(r => r.startsWith('nombre='))
+      ?.split('=')[1]
+    if (raw) setNombre(decodeURIComponent(raw))
   }, [])
 
   const total = cart.reduce((s, i) => s + i.precio * i.cantidad, 0)
@@ -39,6 +49,7 @@ export default function PedidoPage() {
         setError(data.error || 'No se pudo confirmar el pedido')
         return
       }
+      setConfirmedTotal(total)
       localStorage.removeItem(CART_KEY)
       setConfirmed(true)
     } catch {
@@ -48,25 +59,63 @@ export default function PedidoPage() {
     }
   }
 
+  function copyAlias() {
+    navigator.clipboard.writeText(ALIAS).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
+  function openWhatsApp() {
+    const totalStr = `$${confirmedTotal.toLocaleString('es-AR', { minimumFractionDigits: 0 })}`
+    const msg = nombre
+      ? `Hola Mónica, te mando el comprobante de mi transferencia por ${totalStr}. Soy ${nombre}.`
+      : `Hola Mónica, te mando el comprobante de mi transferencia por ${totalStr}.`
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank')
+  }
+
   if (confirmed) {
     return (
       <div className="min-h-screen bg-gray-50">
         <AppHeader />
-        <div className="flex flex-col items-center justify-center px-4 py-16">
+        <div className="flex flex-col items-center justify-center px-4 py-12">
           <div className="text-center max-w-sm w-full">
-            <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl">
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl">
               ✅
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">¡Pedido confirmado!</h2>
-            <p className="text-gray-600 mb-1">Tu pedido fue registrado correctamente.</p>
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 my-5 text-sm text-blue-800">
-              <p className="font-semibold">📍 Retiro en Sede</p>
-              <p className="mt-0.5">Primer viernes del mes</p>
-              <p className="mt-0.5 text-blue-700">Pago en efectivo al retirar</p>
+            <p className="text-gray-500 mb-6">Ahora realizá la transferencia para completar tu pedido.</p>
+
+            <div className="bg-gray-100 rounded-2xl p-4 mb-4 text-center">
+              <p className="text-sm text-gray-500 mb-1">Total a transferir</p>
+              <p className="text-3xl font-bold text-gray-900">
+                ${confirmedTotal.toLocaleString('es-AR', { minimumFractionDigits: 0 })}
+              </p>
             </div>
+
+            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-5">
+              <p className="text-sm text-blue-700 font-medium mb-2">Alias de transferencia</p>
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-xl font-bold text-blue-900 tracking-wide">{ALIAS}</span>
+                <button
+                  onClick={copyAlias}
+                  className="text-sm bg-blue-600 text-white px-3 py-1.5 rounded-lg font-medium shrink-0 transition-colors"
+                >
+                  {copied ? '¡Copiado!' : 'Copiar'}
+                </button>
+              </div>
+            </div>
+
+            <button
+              onClick={openWhatsApp}
+              className="w-full bg-green-500 text-white py-4 rounded-2xl font-bold text-base mb-3 flex items-center justify-center gap-2"
+            >
+              📲 Enviar comprobante por WhatsApp
+            </button>
+
             <button
               onClick={() => router.push('/inicio')}
-              className="bg-[#1c2b4b] text-white px-8 py-3 rounded-xl font-semibold w-full"
+              className="text-gray-400 text-sm py-2"
             >
               Volver al inicio
             </button>
@@ -83,7 +132,7 @@ export default function PedidoPage() {
       <div className="max-w-lg mx-auto px-4 py-4">
         <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-5">
           <p className="text-blue-800 font-semibold text-sm">📍 Retiro en Sede</p>
-          <p className="text-blue-700 text-sm mt-0.5">Primer viernes del mes · Pago en efectivo</p>
+          <p className="text-blue-700 text-sm mt-0.5">Primer viernes del mes · Pago por transferencia bancaria</p>
         </div>
 
         {cart.length === 0 ? (
@@ -122,14 +171,14 @@ export default function PedidoPage() {
             </div>
 
             <div className="bg-gray-100 rounded-2xl p-4 flex items-center justify-between mb-5">
-              <span className="text-gray-700 font-semibold">Total a pagar</span>
+              <span className="text-gray-700 font-semibold">Total a transferir</span>
               <span className="font-bold text-2xl text-gray-900">
                 ${total.toLocaleString('es-AR', { minimumFractionDigits: 0 })}
               </span>
             </div>
 
             <p className="text-xs text-gray-400 text-center mb-5">
-              Precio en efectivo al momento del retiro en Sede.
+              Al confirmar, vas a ver el alias de transferencia y el botón de WhatsApp para enviar el comprobante.
             </p>
 
             {error && (
