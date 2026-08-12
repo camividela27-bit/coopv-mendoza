@@ -18,6 +18,7 @@ export interface Producto {
   notas: string | null
   stock: number | null
   detalles: string | null
+  contribuidor_email: string | null
   created_at: string
 }
 

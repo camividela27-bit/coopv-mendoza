@@ -8,6 +8,7 @@ export default function AdminProductosPage() {
   const [loading, setLoading] = useState(true)
   const [toggling, setToggling] = useState<string | null>(null)
   const [stockDraft, setStockDraft] = useState<Record<string, string>>({})
+  const [emailDraft, setEmailDraft] = useState<Record<string, string>>({})
 
   useEffect(() => {
     fetch('/api/admin/productos')
@@ -15,10 +16,13 @@ export default function AdminProductosPage() {
       .then((data: Producto[]) => {
         setProductos(data)
         const drafts: Record<string, string> = {}
+        const emails: Record<string, string> = {}
         for (const p of data) {
           drafts[p.id] = p.stock != null ? String(p.stock) : ''
+          emails[p.id] = p.contribuidor_email ?? ''
         }
         setStockDraft(drafts)
+        setEmailDraft(emails)
         setLoading(false)
       })
       .catch(() => setLoading(false))
@@ -40,6 +44,18 @@ export default function AdminProductosPage() {
     } finally {
       setToggling(null)
     }
+  }
+
+  async function saveEmail(id: string) {
+    const email = emailDraft[id]?.trim() ?? ''
+    await fetch(`/api/admin/productos/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contribuidor_email: email }),
+    })
+    setProductos(prev =>
+      prev.map(p => p.id === id ? { ...p, contribuidor_email: email || null } : p)
+    )
   }
 
   async function saveStock(id: string) {
@@ -141,6 +157,18 @@ export default function AdminProductosPage() {
                     <p className="text-sm font-semibold text-[#1c2b4b] mt-1">
                       ${producto.precio.toLocaleString('es-AR', { minimumFractionDigits: 0 })}
                     </p>
+                    <div className="flex items-center gap-1.5 mt-2">
+                      <span className="text-xs text-gray-400">✉️</span>
+                      <input
+                        type="email"
+                        placeholder="email del amigo"
+                        value={emailDraft[producto.id] ?? ''}
+                        onChange={e => setEmailDraft(prev => ({ ...prev, [producto.id]: e.target.value }))}
+                        onBlur={() => saveEmail(producto.id)}
+                        onKeyDown={e => e.key === 'Enter' && (e.target as HTMLInputElement).blur()}
+                        className="flex-1 border border-gray-200 rounded-lg px-2 py-1 text-xs text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-1 focus:ring-[#1c2b4b]"
+                      />
+                    </div>
                   </div>
 
                   <div className="flex flex-col items-end gap-2 flex-shrink-0">

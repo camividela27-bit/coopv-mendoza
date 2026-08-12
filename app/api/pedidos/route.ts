@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { verifyToken } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
 import type { CartItem } from '@/lib/types'
+import { notificarContribuidor } from '@/lib/email'
 
 async function getSession(request: NextRequest) {
   const cookieStore = await cookies()
@@ -74,6 +75,36 @@ export async function POST(request: NextRequest) {
   if (itemsError) {
     await supabase.from('pedidos').delete().eq('id', pedido.id)
     return Response.json({ error: itemsError.message }, { status: 500 })
+  }
+
+  // Notificar por email a los contribuidores cuyos productos fueron pedidos
+  if (process.env.RESEND_API_KEY) {
+    try {
+      const productIds = items.map(i => i.producto_id)
+      const { data: prods } = await supabase
+        .from('productos')
+        .select('id, nombre, contribuidor_email')
+        .in('id', productIds)
+        .not('contribuidor_email', 'is', null)
+
+      if (prods && prods.length > 0) {
+        const byEmail: Record<string, { nombre: string; cantidad: number }[]> = {}
+        for (const prod of prods) {
+          if (!prod.contribuidor_email) continue
+          const item = items.find(i => i.producto_id === prod.id)
+          if (!item) continue
+          if (!byEmail[prod.contribuidor_email]) byEmail[prod.contribuidor_email] = []
+          byEmail[prod.contribuidor_email].push({ nombre: prod.nombre, cantidad: item.cantidad })
+        }
+        await Promise.all(
+          Object.entries(byEmail).map(([email, productos]) =>
+            notificarContribuidor(email, productos, session.nombre)
+          )
+        )
+      }
+    } catch {
+      // No bloquear el pedido si falla el email
+    }
   }
 
   return Response.json({ pedido_id: pedido.id }, { status: 201 })
