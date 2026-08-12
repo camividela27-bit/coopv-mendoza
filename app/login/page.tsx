@@ -28,7 +28,7 @@ export default function LoginPage() {
       if (data.must_change_password) {
         router.push('/cambiar-password')
       } else {
-        router.push(data.is_admin ? '/admin' : '/inicio')
+        router.push(data.is_admin ? '/elegir-modo' : '/inicio')
       }
     } catch {
       setError('Error de conexión. Intentá de nuevo.')

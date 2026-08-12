@@ -31,7 +31,7 @@ export default function CambiarPasswordPage() {
         setError(data.error || 'Error al guardar la contraseña')
         return
       }
-      router.push(data.is_admin ? '/admin' : '/inicio')
+      router.push(data.is_admin ? '/elegir-modo' : '/inicio')
     } catch {
       setError('Error de conexión. Intentá de nuevo.')
     } finally {
