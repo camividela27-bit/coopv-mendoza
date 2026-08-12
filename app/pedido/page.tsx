@@ -69,8 +69,8 @@ export default function PedidoPage() {
   function openWhatsApp() {
     const totalStr = `$${confirmedTotal.toLocaleString('es-AR', { minimumFractionDigits: 0 })}`
     const msg = nombre
-      ? `Hola Mónica, te mando el comprobante de mi transferencia por ${totalStr}. Soy ${nombre}.`
-      : `Hola Mónica, te mando el comprobante de mi transferencia por ${totalStr}.`
+      ? `Hola Moni, te mando el comprobante de mi transferencia por ${totalStr}. Soy ${nombre}.`
+      : `Hola Moni, te mando el comprobante de mi transferencia por ${totalStr}.`
     window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank')
   }
 
