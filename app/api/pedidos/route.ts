@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Notificar por email a los contribuidores cuyos productos fueron pedidos
-  if (process.env.RESEND_API_KEY) {
+  if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
     try {
       const productIds = items.map(i => i.producto_id)
       const { data: prods } = await supabase

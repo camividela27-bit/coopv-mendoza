@@ -1,8 +1,12 @@
-import { Resend } from 'resend'
+import nodemailer from 'nodemailer'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
-const FROM = process.env.EMAIL_FROM ?? 'noreply@coopvmendoza.com'
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+})
 
 export async function notificarContribuidor(
   email: string,
@@ -27,8 +31,8 @@ ${lineas}
     </div>
   `
 
-  await resend.emails.send({
-    from: FROM,
+  await transporter.sendMail({
+    from: `"COOPV Mendoza" <${process.env.GMAIL_USER}>`,
     to: email,
     subject: '📦 Nuevo pedido en COOPV Mendoza',
     html,
