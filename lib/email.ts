@@ -2,7 +2,7 @@ import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-const FROM = process.env.EMAIL_FROM ?? 'onboarding@resend.dev'
+const FROM = process.env.EMAIL_FROM ?? 'noreply@coopvmendoza.com'
 
 export async function notificarContribuidor(
   email: string,
