@@ -12,6 +12,7 @@ export default function CatalogoPage() {
   const [productos, setProductos] = useState<Producto[]>([])
   const [cart, setCart] = useState<Record<string, CartItem>>({})
   const [loading, setLoading] = useState(true)
+  const [busqueda, setBusqueda] = useState('')
 
   useEffect(() => {
     const saved = localStorage.getItem(CART_KEY)
@@ -51,6 +52,13 @@ export default function CatalogoPage() {
     }
   }
 
+  const productosFiltrados = busqueda.trim()
+    ? productos.filter(p =>
+        p.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+        (p.productor ?? '').toLowerCase().includes(busqueda.toLowerCase())
+      )
+    : productos
+
   const cartValues = Object.values(cart)
   const totalItems = cartValues.reduce((s, i) => s + i.cantidad, 0)
   const totalPesos = cartValues.reduce((s, i) => s + i.precio * i.cantidad, 0)
@@ -67,15 +75,36 @@ export default function CatalogoPage() {
     <div className="min-h-screen bg-gray-50 pb-28">
       <AppHeader />
 
-      <div className="max-w-lg mx-auto px-4 py-4 space-y-2.5">
-        {productos.length === 0 ? (
+      <div className="max-w-lg mx-auto px-4 py-4">
+        <div className="relative mb-4">
+          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg">🔍</span>
+          <input
+            type="text"
+            placeholder="Buscar producto o productor..."
+            value={busqueda}
+            onChange={e => setBusqueda(e.target.value)}
+            className="w-full bg-white border border-gray-200 rounded-2xl pl-10 pr-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1c2b4b]"
+          />
+          {busqueda && (
+            <button
+              onClick={() => setBusqueda('')}
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg"
+            >
+              ×
+            </button>
+          )}
+        </div>
+
+        <div className="space-y-2.5">
+        {productosFiltrados.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-4xl mb-3">🌱</p>
-            <p className="text-gray-600 font-medium">No hay productos disponibles por ahora.</p>
-            <p className="text-gray-400 text-sm mt-1">Consultá con la coordinación.</p>
+            <p className="text-gray-600 font-medium">
+            {busqueda ? 'Sin resultados para esa búsqueda.' : 'No hay productos disponibles por ahora.'}
+          </p>
           </div>
         ) : (
-          productos.map(producto => {
+          productosFiltrados.map(producto => {
             const qty = cart[producto.id]?.cantidad ?? 0
             const sinStock = producto.stock === 0
             return (
@@ -133,6 +162,7 @@ export default function CatalogoPage() {
             )
           })
         )}
+        </div>
       </div>
 
       {totalItems > 0 && (
