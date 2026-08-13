@@ -102,8 +102,8 @@ export async function POST(request: NextRequest) {
           )
         )
       }
-    } catch {
-      // No bloquear el pedido si falla el email
+    } catch (emailErr) {
+      console.error('[email] Error enviando notificaciones:', emailErr)
     }
   }
 
