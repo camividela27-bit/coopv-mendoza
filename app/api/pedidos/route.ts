@@ -77,6 +77,23 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: itemsError.message }, { status: 500 })
   }
 
+  // Decrementar stock de productos con stock definido
+  for (const item of items) {
+    const { data: prod } = await supabase
+      .from('productos')
+      .select('stock')
+      .eq('id', item.producto_id)
+      .single()
+
+    if (prod && prod.stock !== null) {
+      const nuevoStock = Math.max(0, prod.stock - item.cantidad)
+      await supabase
+        .from('productos')
+        .update({ stock: nuevoStock })
+        .eq('id', item.producto_id)
+    }
+  }
+
   // Notificar por email a los contribuidores cuyos productos fueron pedidos
   if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
     try {
