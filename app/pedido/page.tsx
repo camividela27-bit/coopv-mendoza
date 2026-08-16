@@ -14,6 +14,7 @@ export default function PedidoPage() {
   const [cart, setCart] = useState<CartItem[]>([])
   const [confirmed, setConfirmed] = useState(false)
   const [confirmedTotal, setConfirmedTotal] = useState(0)
+  const [confirmedItems, setConfirmedItems] = useState<CartItem[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [nombre, setNombre] = useState('')
@@ -50,6 +51,7 @@ export default function PedidoPage() {
         return
       }
       setConfirmedTotal(total)
+      setConfirmedItems(cart)
       localStorage.removeItem(CART_KEY)
       setConfirmed(true)
     } catch {
@@ -86,11 +88,29 @@ export default function PedidoPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-2">¡Pedido confirmado!</h2>
             <p className="text-gray-500 mb-6">Ahora realizá la transferencia para completar tu pedido.</p>
 
-            <div className="bg-gray-100 rounded-2xl p-4 mb-4 text-center">
-              <p className="text-sm text-gray-500 mb-1">Total a transferir</p>
-              <p className="text-3xl font-bold text-gray-900">
-                ${confirmedTotal.toLocaleString('es-AR', { minimumFractionDigits: 0 })}
-              </p>
+            <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden mb-4">
+              <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Detalle de tu pedido</p>
+              </div>
+              <div className="divide-y divide-gray-50">
+                {confirmedItems.map(item => (
+                  <div key={item.producto_id} className="px-4 py-2.5 flex items-center justify-between text-sm">
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-gray-800 leading-snug">{item.nombre}</p>
+                      <p className="text-gray-400 text-xs">{item.cantidad} × ${item.precio.toLocaleString('es-AR', { minimumFractionDigits: 0 })}</p>
+                    </div>
+                    <p className="font-semibold text-gray-700 ml-4 flex-shrink-0">
+                      ${(item.precio * item.cantidad).toLocaleString('es-AR', { minimumFractionDigits: 0 })}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <div className="px-4 py-3 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+                <p className="font-semibold text-gray-700">Total a transferir</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  ${confirmedTotal.toLocaleString('es-AR', { minimumFractionDigits: 0 })}
+                </p>
+              </div>
             </div>
 
             <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-5">
