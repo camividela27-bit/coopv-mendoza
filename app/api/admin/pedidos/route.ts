@@ -26,7 +26,7 @@ export async function GET() {
       socio:socios (nsu, nombre),
       items:pedido_items (
         cantidad, precio_unitario,
-        producto:productos (nombre)
+        producto:productos (nombre, productor)
       ),
       fecha_entrega:fechas_entrega (fecha, descripcion)
     `)
