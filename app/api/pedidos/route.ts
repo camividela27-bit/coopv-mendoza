@@ -50,6 +50,17 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: 'El pedido no tiene productos' }, { status: 400 })
   }
 
+  const { data: fechaActiva } = await supabase
+    .from('fechas_entrega')
+    .select('habilitado')
+    .eq('activa', true)
+    .limit(1)
+    .maybeSingle()
+
+  if (fechaActiva && fechaActiva.habilitado === false) {
+    return Response.json({ error: 'Los pedidos están cerrados por el momento.' }, { status: 403 })
+  }
+
   const { data: pedido, error: pedidoError } = await supabase
     .from('pedidos')
     .insert({

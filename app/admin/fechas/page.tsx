@@ -7,6 +7,7 @@ interface FechaEntrega {
   fecha: string | null
   descripcion: string
   activa: boolean
+  habilitado: boolean
 }
 
 function formatFecha(fecha: string | null) {
@@ -69,6 +70,20 @@ export default function AdminFechasPage() {
         body: JSON.stringify({ activa: !current }),
       })
       if (res.ok) setFechas(prev => prev.map(f => f.id === id ? { ...f, activa: !current } : f))
+    } finally {
+      setActing(null)
+    }
+  }
+
+  async function toggleHabilitado(id: string, current: boolean) {
+    setActing(id)
+    try {
+      const res = await fetch(`/api/admin/fechas/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ habilitado: !current }),
+      })
+      if (res.ok) setFechas(prev => prev.map(f => f.id === id ? { ...f, habilitado: !current } : f))
     } finally {
       setActing(null)
     }
@@ -149,16 +164,36 @@ export default function AdminFechasPage() {
             {activas.map(f => (
               <div key={f.id} className="bg-white border border-gray-200 rounded-2xl p-4 flex items-center gap-3">
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-gray-900 text-sm leading-snug">{f.descripcion}</p>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <p className="font-semibold text-gray-900 text-sm leading-snug">{f.descripcion}</p>
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                      f.habilitado !== false
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-red-100 text-red-700'
+                    }`}>
+                      {f.habilitado !== false ? '🟢 Abiertos' : '🔒 Cerrados'}
+                    </span>
+                  </div>
                   {f.fecha && (
                     <p className="text-xs text-gray-400 mt-0.5 capitalize">{formatFecha(f.fecha)}</p>
                   )}
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <button
+                    onClick={() => toggleHabilitado(f.id, f.habilitado !== false)}
+                    disabled={acting === f.id}
+                    className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-colors disabled:opacity-50 ${
+                      f.habilitado !== false
+                        ? 'bg-red-50 text-red-600 hover:bg-red-100'
+                        : 'bg-green-50 text-green-700 hover:bg-green-100'
+                    }`}
+                  >
+                    {acting === f.id ? '...' : f.habilitado !== false ? '🔒 Cerrar pedidos' : '🔓 Abrir pedidos'}
+                  </button>
+                  <button
                     onClick={() => toggleActiva(f.id, f.activa)}
                     disabled={acting === f.id}
-                    className="text-xs bg-gray-100 text-gray-600 hover:bg-red-50 hover:text-red-600 px-3 py-1.5 rounded-lg font-medium transition-colors disabled:opacity-50"
+                    className="text-xs bg-gray-100 text-gray-600 hover:bg-gray-200 px-3 py-1.5 rounded-lg font-medium transition-colors disabled:opacity-50"
                   >
                     Desactivar
                   </button>

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '@/app/components/AppHeader'
+import PedidosBanner from '@/app/components/PedidosBanner'
 import type { Producto, CartItem } from '@/lib/types'
 
 const CART_KEY = 'coopv-cart'
@@ -13,6 +14,7 @@ export default function CatalogoPage() {
   const [cart, setCart] = useState<Record<string, CartItem>>({})
   const [loading, setLoading] = useState(true)
   const [busqueda, setBusqueda] = useState('')
+  const [estado, setEstado] = useState<{ habilitado: boolean; descripcion: string | null } | null>(null)
 
   useEffect(() => {
     const saved = localStorage.getItem(CART_KEY)
@@ -20,11 +22,13 @@ export default function CatalogoPage() {
       try { setCart(JSON.parse(saved)) } catch { /* ignore */ }
     }
 
-    fetch('/api/productos')
-      .then(r => r.json())
-      .then((data: unknown) => { if (Array.isArray(data)) setProductos(data as Producto[]) })
-      .catch(() => {})
-      .finally(() => setLoading(false))
+    Promise.all([
+      fetch('/api/productos').then(r => r.json()),
+      fetch('/api/estado').then(r => r.json()),
+    ]).then(([data, est]) => {
+      if (Array.isArray(data)) setProductos(data as Producto[])
+      setEstado(est as { habilitado: boolean; descripcion: string | null })
+    }).catch(() => {}).finally(() => setLoading(false))
   }, [])
 
   const saveCart = useCallback((updated: Record<string, CartItem>) => {
@@ -76,6 +80,9 @@ export default function CatalogoPage() {
       <AppHeader />
 
       <div className="max-w-lg mx-auto px-4 py-4">
+        {estado && (
+          <PedidosBanner habilitado={estado.habilitado} descripcion={estado.descripcion} />
+        )}
         <div className="relative mb-4">
           <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg">🔍</span>
           <input

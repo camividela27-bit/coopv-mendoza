@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '@/app/components/AppHeader'
+import PedidosBanner from '@/app/components/PedidosBanner'
 import type { CartItem } from '@/lib/types'
 
 const CART_KEY = 'coopv-cart'
@@ -19,6 +20,7 @@ export default function PedidoPage() {
   const [error, setError] = useState('')
   const [nombre, setNombre] = useState('')
   const [copied, setCopied] = useState(false)
+  const [estado, setEstado] = useState<{ habilitado: boolean; descripcion: string | null } | null>(null)
 
   useEffect(() => {
     const saved = localStorage.getItem(CART_KEY)
@@ -32,6 +34,11 @@ export default function PedidoPage() {
       .find(r => r.startsWith('nombre='))
       ?.split('=')[1]
     if (raw) setNombre(decodeURIComponent(raw))
+
+    fetch('/api/estado')
+      .then(r => r.json())
+      .then(d => setEstado(d as { habilitado: boolean; descripcion: string | null }))
+      .catch(() => {})
   }, [])
 
   const total = cart.reduce((s, i) => s + i.precio * i.cantidad, 0)
@@ -150,6 +157,9 @@ export default function PedidoPage() {
       <AppHeader />
 
       <div className="max-w-lg mx-auto px-4 py-4">
+        {estado && (
+          <PedidosBanner habilitado={estado.habilitado} descripcion={estado.descripcion} />
+        )}
         <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-5">
           <p className="text-blue-800 font-semibold text-sm">📍 Retiro en Sede</p>
           <p className="text-blue-700 text-sm mt-0.5">Primer viernes del mes · Pago por transferencia bancaria</p>
@@ -209,10 +219,10 @@ export default function PedidoPage() {
 
             <button
               onClick={confirmar}
-              disabled={loading}
+              disabled={loading || estado?.habilitado === false}
               className="w-full bg-[#1c2b4b] text-white py-4 rounded-2xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed active:scale-98 transition-transform"
             >
-              {loading ? 'Confirmando...' : 'Confirmar pedido'}
+              {loading ? 'Confirmando...' : estado?.habilitado === false ? 'Pedidos cerrados' : 'Confirmar pedido'}
             </button>
 
             <button
