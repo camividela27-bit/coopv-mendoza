@@ -45,8 +45,6 @@ function formatFecha(fechaStr: string | null): string {
     .replace(/^\w/, c => c.toUpperCase())
 }
 
-const WA_NUMBER = '5492615869777'
-
 export default function InicioPage() {
   const router = useRouter()
   const [nombre, setNombre] = useState('')
@@ -92,7 +90,7 @@ export default function InicioPage() {
     ).join('\n')
     const total = pedido.items.reduce((s, i) => s + i.precio_unitario * i.cantidad, 0)
     const msg = `Mi pedido COOPV 🌱${nombreSocio ? ` — ${nombreSocio}` : ''}\n\n${lineas}\n\nTotal: $${total.toLocaleString('es-AR', { minimumFractionDigits: 0 })}`
-    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank')
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank')
   }
 
   const displayAvisos = avisosReady ? avisos : FALLBACK_AVISOS
