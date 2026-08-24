@@ -18,6 +18,21 @@ interface Fecha {
   activa: boolean
 }
 
+interface PedidoItem {
+  id: string
+  cantidad: number
+  precio_unitario: number
+  producto: { nombre: string } | null
+}
+
+interface Pedido {
+  id: string
+  estado: string
+  confirmed_at: string
+  items: PedidoItem[]
+  fecha_entrega: { fecha: string | null; descripcion: string } | null
+}
+
 const FALLBACK_AVISOS: Aviso[] = [
   { id: 'f1', emoji: '🍷', asunto: 'Vino JUNTOS disponible', mensaje: 'Individual y en caja de 6 unidades. ¡Encontralo en el catálogo!' },
   { id: 'f2', emoji: '📦', asunto: 'Nuevos productos de Amigos', mensaje: 'Se sumaron más productos y variedades en los productos.' },
@@ -30,12 +45,15 @@ function formatFecha(fechaStr: string | null): string {
     .replace(/^\w/, c => c.toUpperCase())
 }
 
+const WA_NUMBER = '5492615869777'
+
 export default function InicioPage() {
   const router = useRouter()
   const [nombre, setNombre] = useState('')
   const [avisos, setAvisos] = useState<Aviso[]>([])
   const [avisosReady, setAvisosReady] = useState(false)
   const [fechas, setFechas] = useState<Fecha[]>([])
+  const [pedido, setPedido] = useState<Pedido | null | undefined>(undefined)
 
   useEffect(() => {
     const raw = document.cookie
@@ -59,7 +77,23 @@ export default function InicioPage() {
       .then(r => r.json())
       .then((data: unknown) => { if (Array.isArray(data)) setFechas(data as Fecha[]) })
       .catch(() => {})
+
+    fetch('/api/pedidos')
+      .then(r => r.json())
+      .then((data: Pedido | null) => setPedido(data ?? null))
+      .catch(() => setPedido(null))
   }, [])
+
+  function compartirWhatsApp() {
+    if (!pedido) return
+    const nombreSocio = nombre ? decodeURIComponent(nombre) : ''
+    const lineas = pedido.items.map(i =>
+      `• ${i.producto?.nombre ?? '—'} × ${i.cantidad} — $${(i.precio_unitario * i.cantidad).toLocaleString('es-AR', { minimumFractionDigits: 0 })}`
+    ).join('\n')
+    const total = pedido.items.reduce((s, i) => s + i.precio_unitario * i.cantidad, 0)
+    const msg = `Mi pedido COOPV 🌱${nombreSocio ? ` — ${nombreSocio}` : ''}\n\n${lineas}\n\nTotal: $${total.toLocaleString('es-AR', { minimumFractionDigits: 0 })}`
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank')
+  }
 
   const displayAvisos = avisosReady ? avisos : FALLBACK_AVISOS
 
@@ -92,6 +126,43 @@ export default function InicioPage() {
             ))
           )}
         </div>
+
+        {pedido && (
+          <>
+            <p className="text-xs font-bold text-gray-400 tracking-widest uppercase mb-3">
+              Tu pedido
+            </p>
+            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden mb-7">
+              <div className="divide-y divide-gray-50">
+                {pedido.items.map(item => (
+                  <div key={item.id} className="px-4 py-3 flex items-center justify-between text-sm">
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-gray-800 leading-snug">{item.producto?.nombre ?? '—'}</p>
+                      <p className="text-gray-400 text-xs">{item.cantidad} × ${item.precio_unitario.toLocaleString('es-AR', { minimumFractionDigits: 0 })}</p>
+                    </div>
+                    <p className="font-semibold text-gray-700 ml-4 flex-shrink-0 tabular-nums">
+                      ${(item.precio_unitario * item.cantidad).toLocaleString('es-AR', { minimumFractionDigits: 0 })}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <div className="px-4 py-3 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+                <p className="font-semibold text-gray-700 text-sm">Total</p>
+                <p className="font-bold text-gray-900 tabular-nums">
+                  ${pedido.items.reduce((s, i) => s + i.precio_unitario * i.cantidad, 0).toLocaleString('es-AR', { minimumFractionDigits: 0 })}
+                </p>
+              </div>
+              <div className="px-4 py-3 border-t border-gray-100">
+                <button
+                  onClick={compartirWhatsApp}
+                  className="w-full flex items-center justify-center gap-2 text-sm font-semibold text-green-700 bg-green-50 hover:bg-green-100 py-2.5 rounded-xl transition-colors"
+                >
+                  📲 Compartir por WhatsApp
+                </button>
+              </div>
+            </div>
+          </>
+        )}
 
         <p className="text-xs font-bold text-gray-400 tracking-widest uppercase mb-3">
           Avisos
