@@ -22,11 +22,8 @@ export default function PedidosBanner({ habilitado, descripcion }: Props) {
 
   return (
     <div className="bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 mb-4 flex items-center gap-2.5">
-      <span className="text-lg">⏰</span>
-      <div>
-        <p className="text-sm font-semibold text-amber-800">Pedidos abiertos — ¡apurate!</p>
-        <p className="text-xs text-amber-700">Hoy miércoles cerramos a las 20:00 hs.</p>
-      </div>
+      <span className="text-lg">📢</span>
+      <p className="text-sm font-semibold text-amber-800">{descripcion}</p>
     </div>
   )
 }
