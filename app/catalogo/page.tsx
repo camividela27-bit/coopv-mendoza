@@ -114,6 +114,7 @@ export default function CatalogoPage() {
           productosFiltrados.map(producto => {
             const qty = cart[producto.id]?.cantidad ?? 0
             const sinStock = producto.stock === 0
+            const limitado = producto.max_por_pedido != null && qty >= producto.max_por_pedido
             return (
               <div
                 key={producto.id}
@@ -143,6 +144,11 @@ export default function CatalogoPage() {
                     {producto.notas && (
                       <p className="text-xs text-gray-400 mt-0.5 leading-snug">{producto.notas}</p>
                     )}
+                    {producto.max_por_pedido != null && (
+                      <p className="text-xs text-amber-600 mt-0.5 font-medium">
+                        Máx. {producto.max_por_pedido} por persona
+                      </p>
+                    )}
                   </div>
 
                   {producto.imagen_url && (
@@ -167,7 +173,7 @@ export default function CatalogoPage() {
                     </span>
                     <button
                       onClick={() => updateQty(producto, 1)}
-                      disabled={sinStock}
+                      disabled={sinStock || limitado}
                       aria-label="Agregar uno"
                       className="w-9 h-9 rounded-full bg-[#1c2b4b] text-white text-xl font-bold flex items-center justify-center active:scale-95 transition-transform disabled:opacity-25"
                     >

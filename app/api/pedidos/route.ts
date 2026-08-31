@@ -61,6 +61,26 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: 'Los pedidos están cerrados por el momento.' }, { status: 403 })
   }
 
+  // Validar límite por persona
+  const productIds = items.map(i => i.producto_id)
+  const { data: prodsLimite } = await supabase
+    .from('productos')
+    .select('id, max_por_pedido')
+    .in('id', productIds)
+    .not('max_por_pedido', 'is', null)
+
+  if (prodsLimite) {
+    for (const prod of prodsLimite) {
+      const item = items.find(i => i.producto_id === prod.id)
+      if (item && item.cantidad > prod.max_por_pedido) {
+        return Response.json(
+          { error: `Solo podés pedir hasta ${prod.max_por_pedido} unidad${prod.max_por_pedido === 1 ? '' : 'es'} de este producto.` },
+          { status: 400 }
+        )
+      }
+    }
+  }
+
   const { data: pedido, error: pedidoError } = await supabase
     .from('pedidos')
     .insert({

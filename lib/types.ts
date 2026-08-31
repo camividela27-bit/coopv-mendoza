@@ -20,6 +20,7 @@ export interface Producto {
   detalles: string | null
   contribuidor_email: string | null
   imagen_url: string | null
+  max_por_pedido: number | null
   created_at: string
 }
 
