@@ -35,10 +35,11 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: 'No autorizado' }, { status: 403 })
   }
 
-  const { asunto, mensaje, emoji } = await request.json() as {
+  const { asunto, mensaje, emoji, imagen_url } = await request.json() as {
     asunto: string
     mensaje: string
     emoji?: string
+    imagen_url?: string | null
   }
 
   if (!asunto?.trim() || !mensaje?.trim()) {
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest) {
 
   const { data, error } = await supabase
     .from('comunicados')
-    .insert({ asunto: asunto.trim(), mensaje: mensaje.trim(), emoji: emoji ?? '📢' })
+    .insert({ asunto: asunto.trim(), mensaje: mensaje.trim(), emoji: emoji ?? '📢', imagen_url: imagen_url ?? null })
     .select()
     .single()
 

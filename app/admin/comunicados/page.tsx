@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 interface Comunicado {
   id: string
   asunto: string
   mensaje: string
   emoji: string
+  imagen_url: string | null
   created_at: string
 }
 
@@ -19,10 +20,13 @@ export default function AdminComunicadosPage() {
   const [deleting, setDeleting] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [uploading, setUploading] = useState(false)
 
   const [asunto, setAsunto] = useState('')
   const [mensaje, setMensaje] = useState('')
   const [emoji, setEmoji] = useState('📢')
+  const [imagenUrl, setImagenUrl] = useState('')
+  const fileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     fetch('/api/admin/comunicados')
@@ -30,6 +34,23 @@ export default function AdminComunicadosPage() {
       .then((data: Comunicado[]) => { setComunicados(data); setLoadingList(false) })
       .catch(() => setLoadingList(false))
   }, [])
+
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    setError('')
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const data = await res.json() as { url?: string; error?: string }
+      if (!res.ok) { setError(data.error ?? 'Error al subir imagen'); return }
+      setImagenUrl(data.url ?? '')
+    } finally {
+      setUploading(false)
+    }
+  }
 
   async function enviar(e: { preventDefault(): void }) {
     e.preventDefault()
@@ -40,7 +61,7 @@ export default function AdminComunicadosPage() {
       const res = await fetch('/api/admin/comunicados', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ asunto, mensaje, emoji }),
+        body: JSON.stringify({ asunto, mensaje, emoji, imagen_url: imagenUrl || null }),
       })
       const data = await res.json()
       if (!res.ok) {
@@ -51,6 +72,8 @@ export default function AdminComunicadosPage() {
       setAsunto('')
       setMensaje('')
       setEmoji('📢')
+      setImagenUrl('')
+      if (fileRef.current) fileRef.current.value = ''
       setSuccess(true)
       setTimeout(() => setSuccess(false), 3000)
     } catch {
@@ -130,6 +153,32 @@ export default function AdminComunicadosPage() {
           />
         </div>
 
+        <div>
+          <label className="block text-xs font-semibold text-gray-500 mb-1.5">
+            Imagen / Flyer <span className="font-normal text-gray-400">(opcional)</span>
+          </label>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="w-full text-sm text-gray-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+          />
+          {uploading && <p className="text-xs text-gray-400 mt-1.5">Subiendo imagen...</p>}
+          {imagenUrl && !uploading && (
+            <div className="mt-2 relative">
+              <img src={imagenUrl} alt="preview" className="w-full rounded-xl object-contain max-h-48" />
+              <button
+                type="button"
+                onClick={() => { setImagenUrl(''); if (fileRef.current) fileRef.current.value = '' }}
+                className="absolute top-2 right-2 bg-white/90 text-gray-600 hover:text-red-500 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shadow"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+        </div>
+
         {error && (
           <p className="text-red-600 text-xs">{error}</p>
         )}
@@ -139,7 +188,7 @@ export default function AdminComunicadosPage() {
 
         <button
           type="submit"
-          disabled={sending || !asunto.trim() || !mensaje.trim()}
+          disabled={sending || uploading || !asunto.trim() || !mensaje.trim()}
           className="w-full bg-[#1c2b4b] text-white py-3 rounded-xl font-semibold text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#243764] transition-colors"
         >
           {sending ? 'Publicando...' : 'Publicar aviso'}
@@ -159,21 +208,30 @@ export default function AdminComunicadosPage() {
       ) : (
         <div className="space-y-2">
           {comunicados.map(c => (
-            <div key={c.id} className="bg-white border border-gray-200 rounded-2xl p-4 flex gap-3">
-              <span className="text-xl flex-shrink-0 mt-0.5">{c.emoji}</span>
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-gray-900 text-sm leading-snug">{c.asunto}</p>
-                <p className="text-xs text-gray-500 mt-0.5 leading-snug">{c.mensaje}</p>
-                <p className="text-xs text-gray-300 mt-1.5">{formatDate(c.created_at)}</p>
+            <div key={c.id} className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+              <div className="p-4 flex gap-3">
+                <span className="text-xl flex-shrink-0 mt-0.5">{c.emoji}</span>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-gray-900 text-sm leading-snug">{c.asunto}</p>
+                  <p className="text-xs text-gray-500 mt-0.5 leading-snug">{c.mensaje}</p>
+                  <p className="text-xs text-gray-300 mt-1.5">{formatDate(c.created_at)}</p>
+                </div>
+                <button
+                  onClick={() => eliminar(c.id)}
+                  disabled={deleting === c.id}
+                  className="text-gray-300 hover:text-red-400 transition-colors text-sm flex-shrink-0 disabled:opacity-50"
+                  title="Eliminar"
+                >
+                  ✕
+                </button>
               </div>
-              <button
-                onClick={() => eliminar(c.id)}
-                disabled={deleting === c.id}
-                className="text-gray-300 hover:text-red-400 transition-colors text-sm flex-shrink-0 disabled:opacity-50"
-                title="Eliminar"
-              >
-                ✕
-              </button>
+              {c.imagen_url && (
+                <img
+                  src={c.imagen_url}
+                  alt={c.asunto}
+                  className="w-full object-contain max-h-40 border-t border-gray-100"
+                />
+              )}
             </div>
           ))}
         </div>

@@ -15,7 +15,7 @@ export async function GET() {
 
   const { data, error } = await supabase
     .from('comunicados')
-    .select('id, asunto, mensaje, emoji, created_at')
+    .select('id, asunto, mensaje, emoji, imagen_url, created_at')
     .order('created_at', { ascending: false })
     .limit(5)
 

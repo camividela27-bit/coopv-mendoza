@@ -9,6 +9,7 @@ interface Aviso {
   emoji: string
   asunto: string
   mensaje: string
+  imagen_url?: string | null
 }
 
 interface Fecha {
@@ -167,11 +168,21 @@ export default function InicioPage() {
         </p>
         <div className="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100 mb-8">
           {displayAvisos.map(a => (
-            <div key={a.id} className="p-4">
-              <p className="font-semibold text-gray-900 leading-snug">
-                {a.emoji} {a.asunto}
-              </p>
-              <p className="text-sm text-gray-500 mt-1">{a.mensaje}</p>
+            <div key={a.id}>
+              <div className="p-4">
+                <p className="font-semibold text-gray-900 leading-snug">
+                  {a.emoji} {a.asunto}
+                </p>
+                <p className="text-sm text-gray-500 mt-1">{a.mensaje}</p>
+              </div>
+              {a.imagen_url && (
+                <img
+                  src={a.imagen_url}
+                  alt={a.asunto}
+                  className="w-full object-contain rounded-b-2xl"
+                  style={{ maxHeight: '320px' }}
+                />
+              )}
             </div>
           ))}
         </div>

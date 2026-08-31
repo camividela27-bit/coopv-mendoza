@@ -19,6 +19,7 @@ export interface Producto {
   stock: number | null
   detalles: string | null
   contribuidor_email: string | null
+  imagen_url: string | null
   created_at: string
 }
 

@@ -3,7 +3,8 @@ import { supabase } from '@/lib/supabase'
 export async function GET() {
   const { data, error } = await supabase
     .from('productos')
-    .select('id, nombre, precio, productor, notas, stock, detalles')
+    .select('id, nombre, precio, productor, notas, stock, detalles, imagen_url')
+    .eq('disponible', true)
     .order('nombre')
 
   if (error) { console.error('[productos API]', error); return Response.json({ error: error.message }, { status: 500 }) }
