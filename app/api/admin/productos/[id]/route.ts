@@ -31,6 +31,7 @@ export async function PATCH(
   if ('stock' in body) updates.stock = body.stock
   if ('contribuidor_email' in body) updates.contribuidor_email = body.contribuidor_email || null
   if ('imagen_url' in body) updates.imagen_url = body.imagen_url || null
+  if ('categoria' in body) updates.categoria = body.categoria || null
 
   if (Object.keys(updates).length === 0) {
     return Response.json({ error: 'Sin campos para actualizar' }, { status: 400 })

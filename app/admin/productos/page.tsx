@@ -9,6 +9,9 @@ export default function AdminProductosPage() {
   const [toggling, setToggling] = useState<string | null>(null)
   const [stockDraft, setStockDraft] = useState<Record<string, string>>({})
   const [emailDraft, setEmailDraft] = useState<Record<string, string>>({})
+  const [categoriaDraft, setCategoriaDraft] = useState<Record<string, string>>({})
+
+  const CATEGORIAS = ['', 'Alimentos', 'Dulces', 'Aromas y velas', 'Regalería']
   const [uploadingId, setUploadingId] = useState<string | null>(null)
   const [photoOpenId, setPhotoOpenId] = useState<string | null>(null)
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({})
@@ -20,10 +23,13 @@ export default function AdminProductosPage() {
         setProductos(data)
         const drafts: Record<string, string> = {}
         const emails: Record<string, string> = {}
+        const cats: Record<string, string> = {}
         for (const p of data) {
           drafts[p.id] = p.stock != null ? String(p.stock) : ''
           emails[p.id] = p.contribuidor_email ?? ''
+          cats[p.id] = p.categoria ?? ''
         }
+        setCategoriaDraft(cats)
         setStockDraft(drafts)
         setEmailDraft(emails)
         setLoading(false)
@@ -47,6 +53,18 @@ export default function AdminProductosPage() {
     } finally {
       setToggling(null)
     }
+  }
+
+  async function saveCategoria(id: string, value: string) {
+    setCategoriaDraft(prev => ({ ...prev, [id]: value }))
+    await fetch(`/api/admin/productos/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ categoria: value || null }),
+    })
+    setProductos(prev =>
+      prev.map(p => p.id === id ? { ...p, categoria: value || null } : p)
+    )
   }
 
   async function saveEmail(id: string) {
@@ -222,6 +240,19 @@ export default function AdminProductosPage() {
                           onKeyDown={e => e.key === 'Enter' && (e.target as HTMLInputElement).blur()}
                           className="flex-1 border border-gray-200 rounded-lg px-2 py-1 text-xs text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-1 focus:ring-[#1c2b4b]"
                         />
+                      </div>
+                      <div className="flex items-center gap-1.5 mt-1.5">
+                        <span className="text-xs text-gray-400">🏷</span>
+                        <select
+                          value={categoriaDraft[producto.id] ?? ''}
+                          onChange={e => saveCategoria(producto.id, e.target.value)}
+                          className="flex-1 border border-gray-200 rounded-lg px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#1c2b4b] bg-white"
+                        >
+                          <option value="">Sin categoría</option>
+                          {CATEGORIAS.filter(c => c).map(c => (
+                            <option key={c} value={c}>{c}</option>
+                          ))}
+                        </select>
                       </div>
                     </div>
 

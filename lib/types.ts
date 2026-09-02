@@ -21,6 +21,7 @@ export interface Producto {
   contribuidor_email: string | null
   imagen_url: string | null
   max_por_pedido: number | null
+  categoria: string | null
   created_at: string
 }
 

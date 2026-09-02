@@ -14,7 +14,10 @@ export default function CatalogoPage() {
   const [cart, setCart] = useState<Record<string, CartItem>>({})
   const [loading, setLoading] = useState(true)
   const [busqueda, setBusqueda] = useState('')
+  const [categoriaActiva, setCategoriaActiva] = useState('Todos')
   const [estado, setEstado] = useState<{ habilitado: boolean; descripcion: string | null } | null>(null)
+
+  const CATEGORIAS = ['Todos', 'Alimentos', 'Dulces', 'Aromas y velas', 'Regalería']
 
   useEffect(() => {
     const saved = localStorage.getItem(CART_KEY)
@@ -56,12 +59,13 @@ export default function CatalogoPage() {
     }
   }
 
-  const productosFiltrados = busqueda.trim()
-    ? productos.filter(p =>
-        p.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-        (p.productor ?? '').toLowerCase().includes(busqueda.toLowerCase())
-      )
-    : productos
+  const productosFiltrados = productos
+    .filter(p => categoriaActiva === 'Todos' || p.categoria === categoriaActiva)
+    .filter(p =>
+      !busqueda.trim() ||
+      p.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+      (p.productor ?? '').toLowerCase().includes(busqueda.toLowerCase())
+    )
 
   const cartValues = Object.values(cart)
   const totalItems = cartValues.reduce((s, i) => s + i.cantidad, 0)
@@ -83,6 +87,23 @@ export default function CatalogoPage() {
         {estado && (
           <PedidosBanner habilitado={estado.habilitado} descripcion={estado.descripcion} />
         )}
+
+        <div className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 mb-4" style={{ scrollbarWidth: 'none' }}>
+          {CATEGORIAS.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setCategoriaActiva(cat)}
+              className={`flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                categoriaActiva === cat
+                  ? 'bg-[#1c2b4b] text-white'
+                  : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
         <div className="relative mb-4">
           <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg">🔍</span>
           <input
