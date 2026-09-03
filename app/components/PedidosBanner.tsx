@@ -14,7 +14,9 @@ export default function PedidosBanner({ habilitado, descripcion }: Props) {
         <span className="text-lg">🔒</span>
         <div>
           <p className="text-sm font-semibold text-red-800">Pedidos cerrados</p>
-          <p className="text-xs text-red-600">Por el momento no se reciben nuevos pedidos.</p>
+          <p className="text-xs text-red-600">
+            {descripcion ?? 'Por el momento no se reciben nuevos pedidos.'}
+          </p>
         </div>
       </div>
     )
