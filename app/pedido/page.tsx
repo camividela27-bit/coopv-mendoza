@@ -43,6 +43,17 @@ export default function PedidoPage() {
 
   const total = cart.reduce((s, i) => s + i.precio * i.cantidad, 0)
 
+  function removeItem(producto_id: string) {
+    const saved = localStorage.getItem(CART_KEY)
+    if (!saved) return
+    try {
+      const parsed = JSON.parse(saved) as Record<string, CartItem>
+      const { [producto_id]: _, ...rest } = parsed
+      localStorage.setItem(CART_KEY, JSON.stringify(rest))
+      setCart(Object.values(rest))
+    } catch { /* ignore */ }
+  }
+
   async function confirmar() {
     setLoading(true)
     setError('')
@@ -190,11 +201,20 @@ export default function PedidoPage() {
                       <p className="text-sm text-gray-400">{item.productor}</p>
                     )}
                   </div>
-                  <div className="text-right flex-shrink-0 ml-4">
-                    <p className="text-sm text-gray-500">× {item.cantidad}</p>
-                    <p className="font-bold text-gray-900">
-                      ${(item.precio * item.cantidad).toLocaleString('es-AR', { minimumFractionDigits: 0 })}
-                    </p>
+                  <div className="text-right flex-shrink-0 ml-4 flex items-center gap-3">
+                    <div>
+                      <p className="text-sm text-gray-500">× {item.cantidad}</p>
+                      <p className="font-bold text-gray-900">
+                        ${(item.precio * item.cantidad).toLocaleString('es-AR', { minimumFractionDigits: 0 })}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => removeItem(item.producto_id)}
+                      aria-label="Quitar producto"
+                      className="w-7 h-7 rounded-full bg-gray-100 text-gray-400 hover:bg-red-50 hover:text-red-400 flex items-center justify-center text-sm font-bold transition-colors flex-shrink-0"
+                    >
+                      ×
+                    </button>
                   </div>
                 </div>
               ))}
