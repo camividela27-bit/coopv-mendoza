@@ -94,7 +94,7 @@ export default function ClubPage() {
               {categorias.map(cat => (
                 <div key={cat}>
                   <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 px-1">{cat}</p>
-                  <div className="space-y-2">
+                  <div className="grid grid-cols-2 gap-3">
                     {vitrina.filter(p => p.categoria === cat).map(p => (
                       <VitrinaCard key={p.id} item={p} />
                     ))}
@@ -102,7 +102,7 @@ export default function ClubPage() {
                 </div>
               ))}
               {sinCategoria.length > 0 && (
-                <div className="space-y-2">
+                <div className="grid grid-cols-2 gap-3">
                   {sinCategoria.map(p => <VitrinaCard key={p.id} item={p} />)}
                 </div>
               )}
@@ -126,25 +126,35 @@ function VitrinaCard({ item }: { item: VitrinaItem }) {
   const stockLibre = item.stock === null
 
   return (
-    <div className={`bg-white rounded-2xl border overflow-hidden ${sinStock ? 'opacity-50 border-gray-100' : 'border-gray-200'}`}>
-      {item.imagen_url && (
-        <img src={item.imagen_url} alt={item.nombre} className="w-full object-cover" style={{ maxHeight: '180px' }} />
-      )}
-      <div className="p-4 flex items-center gap-3">
-        <div className="flex-1 min-w-0">
-          <p className="font-semibold text-gray-900 leading-snug text-sm">{item.nombre}</p>
-          {item.observaciones && (
-            <p className="text-xs text-gray-400 mt-0.5">{item.observaciones}</p>
-          )}
-          {!stockLibre && !sinStock && (
-            <p className="text-xs text-amber-600 mt-0.5 font-medium">{item.stock} disponibles</p>
-          )}
+    <div className={`bg-white rounded-2xl border overflow-hidden flex flex-col ${sinStock ? 'opacity-50 border-gray-100' : 'border-gray-200'}`}>
+      {item.imagen_url ? (
+        <div className="relative w-full" style={{ aspectRatio: '1 / 1' }}>
+          <img
+            src={item.imagen_url}
+            alt={item.nombre}
+            className="w-full h-full object-cover"
+          />
           {sinStock && (
-            <p className="text-xs text-red-400 mt-0.5 font-medium">Sin stock</p>
+            <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
+              <span className="text-xs font-bold text-red-500 bg-white px-2 py-1 rounded-full border border-red-200">Sin stock</span>
+            </div>
           )}
         </div>
-        <div className="flex-shrink-0 text-right">
-          <p className="font-bold text-[#1c2b4b] text-base">
+      ) : (
+        <div className="w-full bg-gray-100 flex items-center justify-center text-3xl" style={{ aspectRatio: '1 / 1' }}>
+          🛍️
+        </div>
+      )}
+      <div className="p-3 flex flex-col gap-1 flex-1">
+        <p className="font-semibold text-gray-900 leading-snug text-xs">{item.nombre}</p>
+        {item.observaciones && (
+          <p className="text-[10px] text-gray-400 leading-tight">{item.observaciones}</p>
+        )}
+        {!stockLibre && !sinStock && (
+          <p className="text-[10px] text-amber-600 font-medium">{item.stock} disponibles</p>
+        )}
+        <div className="mt-auto pt-2">
+          <p className="font-bold text-[#1c2b4b] text-lg leading-none">
             ${item.precio.toLocaleString('es-AR', { minimumFractionDigits: 0 })}
           </p>
         </div>
