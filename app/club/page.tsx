@@ -87,7 +87,7 @@ export default function ClubPage() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <span className="text-base font-bold text-gray-900">Productos disponibles</span>
-              <span className="text-xs bg-[#1c2b4b] text-white px-2.5 py-1 rounded-full font-semibold">Compra en Club</span>
+              <span className="text-xs bg-[#1c2b4b] text-white px-2.5 py-1 rounded-full font-semibold">Solo presencial</span>
             </div>
 
             <div className="space-y-6">
