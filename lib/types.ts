@@ -22,6 +22,7 @@ export interface Producto {
   imagen_url: string | null
   max_por_pedido: number | null
   categoria: string | null
+  solo_club: boolean | null
   created_at: string
 }
 
