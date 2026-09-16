@@ -14,6 +14,7 @@ interface Novedad {
   descripcion: string | null
   imagen_url: string | null
   etiqueta: string | null
+  link_url: string | null
 }
 
 const ORDEN_CATEGORIAS = ['Alimentos', 'Condimentos', 'Limpieza', 'Higiene Personal', 'Armonizadores', 'Pastas Secas', 'Vinos']
@@ -111,6 +112,16 @@ export default function ClubPage() {
                   <p className="font-bold text-gray-900 text-base leading-snug">{n.titulo}</p>
                   {n.descripcion && (
                     <p className="text-sm text-gray-500 mt-1.5 leading-relaxed">{n.descripcion}</p>
+                  )}
+                  {n.link_url && (
+                    <a
+                      href={n.link_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block mt-3 bg-[#1c2b4b] text-white text-xs font-bold px-4 py-2 rounded-xl"
+                    >
+                      Inscribirse →
+                    </a>
                   )}
                 </div>
               </div>

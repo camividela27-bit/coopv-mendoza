@@ -9,9 +9,9 @@ export async function GET() {
   try { await verifyToken(token) } catch { return Response.json({ error: 'No autorizado' }, { status: 401 }) }
 
   const { data, error } = await supabase
-    .from('novedades_club')
+    .from('novedades')
     .select('*')
-    .eq('activo', true)
+    .eq('activa', true)
     .order('orden', { ascending: true })
     .order('created_at', { ascending: false })
 
