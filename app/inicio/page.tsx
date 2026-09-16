@@ -10,6 +10,7 @@ interface Aviso {
   asunto: string
   mensaje: string
   imagen_url?: string | null
+  link_url?: string | null
 }
 
 interface Fecha {
@@ -174,6 +175,16 @@ export default function InicioPage() {
                   {a.emoji} {a.asunto}
                 </p>
                 <p className="text-sm text-gray-500 mt-1">{a.mensaje}</p>
+                {a.link_url && (
+                  <a
+                    href={a.link_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block mt-2 bg-[#1c2b4b] text-white text-xs font-bold px-4 py-2 rounded-xl"
+                  >
+                    Inscribirse →
+                  </a>
+                )}
               </div>
               {a.imagen_url && (
                 <img
