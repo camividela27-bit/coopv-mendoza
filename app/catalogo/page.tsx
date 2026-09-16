@@ -84,6 +84,11 @@ export default function CatalogoPage() {
       <AppHeader />
 
       <div className="max-w-lg mx-auto px-4 py-4">
+        <div className="mb-4">
+          <h1 className="text-2xl font-bold text-gray-900">Catálogo de Amigo a Amigo</h1>
+          <p className="text-sm text-gray-500 mt-0.5">Productos de nuestra comunidad</p>
+        </div>
+
         {estado && (
           <PedidosBanner habilitado={estado.habilitado} descripcion={estado.descripcion} />
         )}

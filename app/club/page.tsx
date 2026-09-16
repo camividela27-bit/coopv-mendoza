@@ -89,7 +89,7 @@ export default function ClubPage() {
       <AppHeader />
       <div className="max-w-lg mx-auto px-4 py-6">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">En el Club</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Catálogo Productos Club</h1>
           <p className="text-sm text-gray-500 mt-0.5">Productos disponibles en la sede</p>
         </div>
 
