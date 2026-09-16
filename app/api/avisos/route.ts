@@ -14,23 +14,11 @@ export async function GET() {
   }
 
   const { data, error } = await supabase
-    .from('novedades')
-    .select('id, titulo, descripcion, etiqueta, imagen_url, link_url, orden')
-    .eq('activa', true)
-    .order('orden', { ascending: true })
+    .from('comunicados')
+    .select('id, asunto, mensaje, emoji, imagen_url, link_url, created_at')
     .order('created_at', { ascending: false })
     .limit(10)
 
   if (error) return Response.json([], { status: 200 })
-
-  const avisos = (data ?? []).map(n => ({
-    id: n.id,
-    emoji: n.etiqueta ?? '📌',
-    asunto: n.titulo,
-    mensaje: n.descripcion ?? '',
-    imagen_url: n.imagen_url ?? null,
-    link_url: n.link_url ?? null,
-  }))
-
-  return Response.json(avisos)
+  return Response.json(data ?? [])
 }

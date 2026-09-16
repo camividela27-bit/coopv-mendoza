@@ -8,6 +8,7 @@ interface Comunicado {
   mensaje: string
   emoji: string
   imagen_url: string | null
+  link_url: string | null
   created_at: string
 }
 
@@ -26,6 +27,7 @@ export default function AdminComunicadosPage() {
   const [mensaje, setMensaje] = useState('')
   const [emoji, setEmoji] = useState('📢')
   const [imagenUrl, setImagenUrl] = useState('')
+  const [linkUrl, setLinkUrl] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -61,7 +63,7 @@ export default function AdminComunicadosPage() {
       const res = await fetch('/api/admin/comunicados', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ asunto, mensaje, emoji, imagen_url: imagenUrl || null }),
+        body: JSON.stringify({ asunto, mensaje, emoji, imagen_url: imagenUrl || null, link_url: linkUrl || null }),
       })
       const data = await res.json()
       if (!res.ok) {
@@ -73,6 +75,7 @@ export default function AdminComunicadosPage() {
       setMensaje('')
       setEmoji('📢')
       setImagenUrl('')
+      setLinkUrl('')
       if (fileRef.current) fileRef.current.value = ''
       setSuccess(true)
       setTimeout(() => setSuccess(false), 3000)
@@ -179,6 +182,19 @@ export default function AdminComunicadosPage() {
           )}
         </div>
 
+        <div>
+          <label className="block text-xs font-semibold text-gray-500 mb-1.5">
+            Link de inscripción <span className="font-normal text-gray-400">(opcional)</span>
+          </label>
+          <input
+            type="url"
+            value={linkUrl}
+            onChange={e => setLinkUrl(e.target.value)}
+            placeholder="https://..."
+            className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1c2b4b]"
+          />
+        </div>
+
         {error && (
           <p className="text-red-600 text-xs">{error}</p>
         )}
@@ -214,6 +230,11 @@ export default function AdminComunicadosPage() {
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-gray-900 text-sm leading-snug">{c.asunto}</p>
                   <p className="text-xs text-gray-500 mt-0.5 leading-snug">{c.mensaje}</p>
+                  {c.link_url && (
+                    <a href={c.link_url} target="_blank" rel="noopener noreferrer" className="text-xs text-[#1c2b4b] underline mt-1 inline-block">
+                      {c.link_url.length > 40 ? c.link_url.slice(0, 40) + '…' : c.link_url}
+                    </a>
+                  )}
                   <p className="text-xs text-gray-300 mt-1.5">{formatDate(c.created_at)}</p>
                 </div>
                 <button
