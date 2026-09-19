@@ -100,6 +100,7 @@ function descargarCSV(grupos: GrupoProductor[]) {
 export default function ReportePage() {
   const [pedidos, setPedidos] = useState<Pedido[]>([])
   const [loading, setLoading] = useState(true)
+  const [busqueda, setBusqueda] = useState('')
 
   const loadPedidos = useCallback(async () => {
     setLoading(true)
@@ -116,7 +117,9 @@ export default function ReportePage() {
 
   useEffect(() => { loadPedidos() }, [loadPedidos])
 
-  const grupos = agruparPorProductor(pedidos)
+  const grupos = agruparPorProductor(pedidos).filter(g =>
+    !busqueda.trim() || g.productor.toLowerCase().includes(busqueda.toLowerCase())
+  )
   const totalGeneral = grupos.reduce((s, g) => s + g.total, 0)
 
   if (loading) {
@@ -129,7 +132,7 @@ export default function ReportePage() {
 
   return (
     <div className="p-5">
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center justify-between mb-4">
         <h1 className="font-bold text-gray-900 text-lg">Reporte de proveedores</h1>
         {grupos.length > 0 && (
           <button
@@ -141,10 +144,18 @@ export default function ReportePage() {
         )}
       </div>
 
+      <input
+        type="text"
+        value={busqueda}
+        onChange={e => setBusqueda(e.target.value)}
+        placeholder="Buscar por productor..."
+        className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1c2b4b] mb-4"
+      />
+
       {grupos.length === 0 ? (
         <div className="text-center py-16">
           <p className="text-4xl mb-3">📊</p>
-          <p className="text-gray-500 font-medium">No hay pedidos para reportar.</p>
+          <p className="text-gray-500 font-medium">{busqueda ? 'Sin resultados.' : 'No hay pedidos para reportar.'}</p>
         </div>
       ) : (
         <>

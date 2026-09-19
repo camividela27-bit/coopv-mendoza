@@ -7,6 +7,7 @@ export default function AdminProductosPage() {
   const [productos, setProductos] = useState<Producto[]>([])
   const [loading, setLoading] = useState(true)
   const [toggling, setToggling] = useState<string | null>(null)
+  const [busqueda, setBusqueda] = useState('')
   const [stockDraft, setStockDraft] = useState<Record<string, string>>({})
   const [emailDraft, setEmailDraft] = useState<Record<string, string>>({})
   const [categoriaDraft, setCategoriaDraft] = useState<Record<string, string>>({})
@@ -141,11 +142,18 @@ export default function AdminProductosPage() {
     )
   }
 
+  const productosFiltrados = busqueda.trim()
+    ? productos.filter(p =>
+        p.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+        (p.productor ?? '').toLowerCase().includes(busqueda.toLowerCase())
+      )
+    : productos
+
   const disponibles = productos.filter(p => p.disponible).length
 
   return (
     <div className="p-5">
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center justify-between mb-4">
         <div>
           <h1 className="font-bold text-gray-900 text-lg">
             Productos ({productos.length})
@@ -155,6 +163,13 @@ export default function AdminProductosPage() {
           </p>
         </div>
       </div>
+      <input
+        type="text"
+        value={busqueda}
+        onChange={e => setBusqueda(e.target.value)}
+        placeholder="Buscar por nombre o productor..."
+        className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1c2b4b] mb-4"
+      />
 
       <div className="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 mb-5">
         <p className="text-xs text-blue-700">
@@ -162,14 +177,14 @@ export default function AdminProductosPage() {
         </p>
       </div>
 
-      {productos.length === 0 ? (
+      {productosFiltrados.length === 0 ? (
         <div className="text-center py-16">
           <p className="text-4xl mb-3">🌱</p>
-          <p className="text-gray-500">No hay productos cargados.</p>
+          <p className="text-gray-500">{busqueda ? 'Sin resultados.' : 'No hay productos cargados.'}</p>
         </div>
       ) : (
         <div className="space-y-2">
-          {productos.map(producto => {
+          {productosFiltrados.map(producto => {
             const status = getStatus(producto)
             const isOpen = photoOpenId === producto.id
             const isUploading = uploadingId === producto.id

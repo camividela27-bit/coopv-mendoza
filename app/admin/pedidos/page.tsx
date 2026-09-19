@@ -30,6 +30,7 @@ export default function AdminPedidosPage() {
   const [loading, setLoading] = useState(true)
   const [acting, setActing] = useState<string | null>(null)
   const [clearingAll, setClearingAll] = useState(false)
+  const [busqueda, setBusqueda] = useState('')
 
   const loadPedidos = useCallback(async () => {
     setLoading(true)
@@ -84,8 +85,15 @@ export default function AdminPedidosPage() {
     }
   }
 
-  const groups = groupByFecha(pedidos)
-  const totalGeneral = pedidos.reduce(
+  const pedidosFiltrados = busqueda.trim()
+    ? pedidos.filter(p =>
+        p.socio?.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+        String(p.socio?.nsu ?? '').includes(busqueda)
+      )
+    : pedidos
+
+  const groups = groupByFecha(pedidosFiltrados)
+  const totalGeneral = pedidosFiltrados.reduce(
     (sum, p) => sum + p.items.reduce((s, i) => s + i.precio_unitario * i.cantidad, 0), 0
   )
 
@@ -99,7 +107,7 @@ export default function AdminPedidosPage() {
 
   return (
     <div className="p-5">
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center justify-between mb-4">
         <h1 className="font-bold text-gray-900 text-lg">Pedidos confirmados</h1>
         <div className="flex items-center gap-2">
           {pedidos.length > 0 && (
@@ -120,7 +128,15 @@ export default function AdminPedidosPage() {
         </div>
       </div>
 
-      {pedidos.length === 0 ? (
+      <input
+        type="text"
+        value={busqueda}
+        onChange={e => setBusqueda(e.target.value)}
+        placeholder="Buscar por nombre o NSU..."
+        className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1c2b4b] mb-4"
+      />
+
+      {pedidosFiltrados.length === 0 ? (
         <div className="text-center py-16">
           <p className="text-4xl mb-3">📭</p>
           <p className="text-gray-500 font-medium">No hay pedidos confirmados.</p>
