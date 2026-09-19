@@ -89,6 +89,12 @@ export default function ClubPage() {
     <div className="min-h-screen bg-gray-50 pb-28">
       <AppHeader />
       <div className="max-w-lg mx-auto px-4 py-6">
+        <button
+          onClick={() => router.push('/elegir-catalogo')}
+          className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 mb-4 transition-colors"
+        >
+          ← Catálogo
+        </button>
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900">Catálogo Productos Club</h1>
           <p className="text-sm text-gray-500 mt-0.5">Productos disponibles en la sede</p>

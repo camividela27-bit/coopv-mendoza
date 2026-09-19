@@ -5,8 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 
 const NAV = [
   { href: '/inicio', label: 'Inicio' },
-  { href: '/catalogo', label: 'Amigo a Amigo' },
-  { href: '/club', label: 'Prod. Club' },
+  { href: '/elegir-catalogo', label: 'Catálogo' },
   { href: '/pedido', label: 'Pedido' },
 ]
 
@@ -25,19 +24,24 @@ export default function AppHeader() {
       <div className="max-w-lg mx-auto px-4 py-3 flex items-center justify-between">
         <span className="text-amber-400 font-bold text-xl tracking-wide">COOPV</span>
         <nav className="flex items-center gap-3 text-xs">
-          {NAV.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={
-                pathname === href
-                  ? 'text-amber-400 font-semibold'
-                  : 'text-white/70 hover:text-white transition-colors'
-              }
-            >
-              {label}
-            </Link>
-          ))}
+          {NAV.map(({ href, label }) => {
+            const active = href === '/elegir-catalogo'
+              ? pathname === '/elegir-catalogo' || pathname === '/catalogo' || pathname === '/club'
+              : pathname === href
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={
+                  active
+                    ? 'text-amber-400 font-semibold'
+                    : 'text-white/70 hover:text-white transition-colors'
+                }
+              >
+                {label}
+              </Link>
+            )
+          })}
           <button
             onClick={logout}
             className="text-white/70 hover:text-white transition-colors"
