@@ -53,7 +53,7 @@ export default function InicioPage() {
   const [avisos, setAvisos] = useState<Aviso[]>([])
   const [avisosReady, setAvisosReady] = useState(false)
   const [fechas, setFechas] = useState<Fecha[]>([])
-  const [pedido, setPedido] = useState<Pedido | null | undefined>(undefined)
+  const [pedidos, setPedidos] = useState<Pedido[] | undefined>(undefined)
 
   useEffect(() => {
     const raw = document.cookie
@@ -80,12 +80,11 @@ export default function InicioPage() {
 
     fetch('/api/pedidos')
       .then(r => r.json())
-      .then((data: Pedido | null) => setPedido(data ?? null))
-      .catch(() => setPedido(null))
+      .then((data: Pedido[]) => setPedidos(Array.isArray(data) ? data : []))
+      .catch(() => setPedidos([]))
   }, [])
 
-  function compartirWhatsApp() {
-    if (!pedido) return
+  function compartirWhatsApp(pedido: Pedido) {
     const nombreSocio = nombre ? decodeURIComponent(nombre) : ''
     const lineas = pedido.items.map(i =>
       `• ${i.producto?.nombre ?? '—'} × ${i.cantidad} — $${(i.precio_unitario * i.cantidad).toLocaleString('es-AR', { minimumFractionDigits: 0 })}`
@@ -127,39 +126,48 @@ export default function InicioPage() {
           )}
         </div>
 
-        {pedido && (
+        {pedidos && pedidos.length > 0 && (
           <>
             <p className="text-xs font-bold text-gray-400 tracking-widest uppercase mb-3">
-              Tu pedido
+              {pedidos.length === 1 ? 'Tu pedido' : 'Tus pedidos'}
             </p>
-            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden mb-7">
-              <div className="divide-y divide-gray-50">
-                {pedido.items.map(item => (
-                  <div key={item.id} className="px-4 py-3 flex items-center justify-between text-sm">
-                    <div className="min-w-0 flex-1">
-                      <p className="font-medium text-gray-800 leading-snug">{item.producto?.nombre ?? '—'}</p>
-                      <p className="text-gray-400 text-xs">{item.cantidad} × ${item.precio_unitario.toLocaleString('es-AR', { minimumFractionDigits: 0 })}</p>
+            <div className="space-y-3 mb-7">
+              {pedidos.map((pedido, idx) => (
+                <div key={pedido.id} className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                  {pedidos.length > 1 && (
+                    <div className="px-4 pt-3 pb-0">
+                      <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Pedido {pedidos.length - idx}</p>
                     </div>
-                    <p className="font-semibold text-gray-700 ml-4 flex-shrink-0 tabular-nums">
-                      ${(item.precio_unitario * item.cantidad).toLocaleString('es-AR', { minimumFractionDigits: 0 })}
+                  )}
+                  <div className="divide-y divide-gray-50">
+                    {pedido.items.map(item => (
+                      <div key={item.id} className="px-4 py-3 flex items-center justify-between text-sm">
+                        <div className="min-w-0 flex-1">
+                          <p className="font-medium text-gray-800 leading-snug">{item.producto?.nombre ?? '—'}</p>
+                          <p className="text-gray-400 text-xs">{item.cantidad} × ${item.precio_unitario.toLocaleString('es-AR', { minimumFractionDigits: 0 })}</p>
+                        </div>
+                        <p className="font-semibold text-gray-700 ml-4 flex-shrink-0 tabular-nums">
+                          ${(item.precio_unitario * item.cantidad).toLocaleString('es-AR', { minimumFractionDigits: 0 })}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="px-4 py-3 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+                    <p className="font-semibold text-gray-700 text-sm">Total</p>
+                    <p className="font-bold text-gray-900 tabular-nums">
+                      ${pedido.items.reduce((s, i) => s + i.precio_unitario * i.cantidad, 0).toLocaleString('es-AR', { minimumFractionDigits: 0 })}
                     </p>
                   </div>
-                ))}
-              </div>
-              <div className="px-4 py-3 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
-                <p className="font-semibold text-gray-700 text-sm">Total</p>
-                <p className="font-bold text-gray-900 tabular-nums">
-                  ${pedido.items.reduce((s, i) => s + i.precio_unitario * i.cantidad, 0).toLocaleString('es-AR', { minimumFractionDigits: 0 })}
-                </p>
-              </div>
-              <div className="px-4 py-3 border-t border-gray-100">
-                <button
-                  onClick={compartirWhatsApp}
-                  className="w-full flex items-center justify-center gap-2 text-sm font-semibold text-green-700 bg-green-50 hover:bg-green-100 py-2.5 rounded-xl transition-colors"
-                >
-                  📲 Compartir por WhatsApp
-                </button>
-              </div>
+                  <div className="px-4 py-3 border-t border-gray-100">
+                    <button
+                      onClick={() => compartirWhatsApp(pedido)}
+                      className="w-full flex items-center justify-center gap-2 text-sm font-semibold text-green-700 bg-green-50 hover:bg-green-100 py-2.5 rounded-xl transition-colors"
+                    >
+                      📲 Compartir por WhatsApp
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </>
         )}

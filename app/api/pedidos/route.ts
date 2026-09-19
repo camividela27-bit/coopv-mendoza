@@ -32,11 +32,10 @@ export async function GET(request: NextRequest) {
     `)
     .eq('socio_id', session.socio_id)
     .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle()
+    .limit(10)
 
   if (error) return Response.json({ error: error.message }, { status: 500 })
-  return Response.json(data)
+  return Response.json(data ?? [])
 }
 
 export async function POST(request: NextRequest) {
