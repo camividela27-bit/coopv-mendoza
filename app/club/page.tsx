@@ -97,7 +97,7 @@ export default function ClubPage() {
         </button>
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900">Catálogo Productos Club</h1>
-          <p className="text-sm text-gray-500 mt-0.5">Productos disponibles en la sede</p>
+          <p className="text-sm text-gray-500 mt-0.5">Productos de nuestra cooperativa</p>
         </div>
 
         {estado && <PedidosBanner habilitado={estado.habilitado} descripcion={estado.descripcion} />}
