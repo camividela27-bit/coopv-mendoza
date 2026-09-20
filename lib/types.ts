@@ -59,6 +59,7 @@ export interface SessionPayload {
   nsu: number
   nombre: string
   is_admin: boolean
+  is_proveedor?: boolean
 }
 
 export interface CartItem {

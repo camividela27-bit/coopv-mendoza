@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 
   const { data: socio, error } = await supabase
     .from('socios')
-    .select('id, nsu, nombre, is_admin, activo, password_hash, must_change_password')
+    .select('id, nsu, nombre, is_admin, is_proveedor, activo, password_hash, must_change_password')
     .eq('nsu', nsu)
     .single()
 
@@ -44,6 +44,7 @@ export async function POST(request: NextRequest) {
     nsu: socio.nsu,
     nombre: socio.nombre,
     is_admin: socio.is_admin,
+    is_proveedor: socio.is_proveedor ?? false,
   })
 
   const cookieStore = await cookies()
@@ -72,6 +73,7 @@ export async function POST(request: NextRequest) {
   return Response.json({
     ok: true,
     is_admin: socio.is_admin,
+    is_proveedor: socio.is_proveedor ?? false,
     must_change_password: socio.must_change_password ?? true,
   })
 }

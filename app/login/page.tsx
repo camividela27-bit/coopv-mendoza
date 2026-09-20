@@ -27,8 +27,12 @@ export default function LoginPage() {
       }
       if (data.must_change_password) {
         router.push('/cambiar-password')
+      } else if (data.is_admin) {
+        router.push('/elegir-modo')
+      } else if (data.is_proveedor) {
+        router.push('/proveedor')
       } else {
-        router.push(data.is_admin ? '/elegir-modo' : '/inicio')
+        router.push('/inicio')
       }
     } catch {
       setError('Error de conexión. Intentá de nuevo.')
