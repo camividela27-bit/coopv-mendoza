@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 export default function ElegirModoPage() {
   const router = useRouter()
   const [nombre, setNombre] = useState('')
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [isProveedor, setIsProveedor] = useState(false)
 
   useEffect(() => {
     const raw = document.cookie
@@ -13,6 +15,14 @@ export default function ElegirModoPage() {
       .find(r => r.startsWith('nombre='))
       ?.split('=')[1]
     if (raw) setNombre(decodeURIComponent(raw))
+
+    fetch('/api/me')
+      .then(r => r.json())
+      .then(data => {
+        setIsAdmin(data.is_admin ?? false)
+        setIsProveedor(data.is_proveedor ?? false)
+      })
+      .catch(() => {})
   }, [])
 
   return (
@@ -43,18 +53,35 @@ export default function ElegirModoPage() {
               </p>
             </button>
 
-            <button
-              onClick={() => router.push('/admin')}
-              className="w-full border-2 border-amber-200 rounded-xl p-5 text-left hover:border-amber-500 hover:bg-amber-50 transition-all group"
-            >
-              <div className="text-2xl mb-2">⚙️</div>
-              <p className="font-bold text-gray-900 text-base group-hover:text-amber-700">
-                Panel de administración
-              </p>
-              <p className="text-sm text-gray-500 mt-0.5">
-                Gestionar pedidos, productos y fechas
-              </p>
-            </button>
+            {isAdmin && (
+              <button
+                onClick={() => router.push('/admin')}
+                className="w-full border-2 border-amber-200 rounded-xl p-5 text-left hover:border-amber-500 hover:bg-amber-50 transition-all group"
+              >
+                <div className="text-2xl mb-2">⚙️</div>
+                <p className="font-bold text-gray-900 text-base group-hover:text-amber-700">
+                  Panel de administración
+                </p>
+                <p className="text-sm text-gray-500 mt-0.5">
+                  Gestionar pedidos, productos y fechas
+                </p>
+              </button>
+            )}
+
+            {isProveedor && (
+              <button
+                onClick={() => router.push('/proveedor')}
+                className="w-full border-2 border-green-200 rounded-xl p-5 text-left hover:border-green-500 hover:bg-green-50 transition-all group"
+              >
+                <div className="text-2xl mb-2">📦</div>
+                <p className="font-bold text-gray-900 text-base group-hover:text-green-700">
+                  Portal de proveedores
+                </p>
+                <p className="text-sm text-gray-500 mt-0.5">
+                  Ver pedidos y reporte de ventas
+                </p>
+              </button>
+            )}
           </div>
         </div>
       </div>

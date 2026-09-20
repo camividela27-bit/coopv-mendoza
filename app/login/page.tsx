@@ -27,10 +27,8 @@ export default function LoginPage() {
       }
       if (data.must_change_password) {
         router.push('/cambiar-password')
-      } else if (data.is_admin) {
+      } else if (data.is_admin || data.is_proveedor) {
         router.push('/elegir-modo')
-      } else if (data.is_proveedor) {
-        router.push('/proveedor')
       } else {
         router.push('/inicio')
       }
