@@ -113,7 +113,11 @@ export default function InicioPage() {
         </p>
         <div className="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100 mb-7">
           {fechas.length === 0 ? (
-            <div className="p-4 text-sm text-gray-400 text-center">Sin fechas próximas</div>
+            <div className="p-5 flex flex-col items-center text-center gap-2">
+              <p className="text-2xl">🌿</p>
+              <p className="font-semibold text-gray-800 text-sm">Se viene la próxima coope</p>
+              <p className="text-xs text-gray-400">Estamos organizando la fecha de entrega. Te avisamos pronto.</p>
+            </div>
           ) : (
             fechas.map(f => (
               <div key={f.id} className="p-4 flex items-start justify-between gap-4">

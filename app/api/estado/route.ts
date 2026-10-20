@@ -21,7 +21,7 @@ export async function GET() {
     .maybeSingle()
 
   return Response.json({
-    habilitado: data?.habilitado ?? true,
+    habilitado: data?.habilitado ?? false,
     descripcion: data?.descripcion ?? null,
   })
 }
