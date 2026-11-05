@@ -26,7 +26,7 @@ export default function AppHeader() {
         <nav className="flex items-center gap-3 text-xs">
           {NAV.map(({ href, label }) => {
             const active = href === '/elegir-catalogo'
-              ? pathname === '/elegir-catalogo' || pathname === '/catalogo' || pathname === '/club'
+              ? ['/elegir-catalogo', '/catalogo', '/club', '/directo', '/combos'].includes(pathname)
               : pathname === href
             return (
               <Link

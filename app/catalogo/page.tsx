@@ -26,7 +26,7 @@ export default function CatalogoPage() {
     }
 
     Promise.all([
-      fetch('/api/productos').then(r => r.json()),
+      fetch('/api/productos?tipo=amigo_a_amigo').then(r => r.json()),
       fetch('/api/estado').then(r => r.json()),
     ]).then(([data, est]) => {
       if (Array.isArray(data)) setProductos(data as Producto[])

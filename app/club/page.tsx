@@ -35,7 +35,7 @@ export default function ClubPage() {
 
     Promise.all([
       fetch('/api/novedades').then(r => r.json()).catch(() => []),
-      fetch('/api/productos?solo_club=true').then(r => r.json()).catch(() => []),
+      fetch('/api/productos?tipo=club').then(r => r.json()).catch(() => []),
       fetch('/api/estado').then(r => r.json()).catch(() => null),
     ]).then(([nov, prod, est]) => {
       if (Array.isArray(nov)) setNovedades(nov as Novedad[])

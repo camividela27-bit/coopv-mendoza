@@ -31,7 +31,25 @@ export default function ElegirCatalogoPage() {
           >
             <p className="text-xs font-bold uppercase tracking-widest text-[#3D6B50] mb-1">Club</p>
             <p className="text-lg font-bold text-gray-900">Productos de Club</p>
-            <p className="text-sm text-gray-500 mt-1">Productos disponibles en la sede para retirar el sábado</p>
+            <p className="text-sm text-gray-500 mt-1">Productos de nuestra cooperativa</p>
+          </button>
+
+          <button
+            onClick={() => router.push('/directo')}
+            className="w-full bg-white border border-gray-200 rounded-2xl p-6 text-left hover:border-[#1c2b4b] hover:shadow-sm transition-all"
+          >
+            <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1">Directo de Proveedor</p>
+            <p className="text-lg font-bold text-gray-900">Directo de Proveedor</p>
+            <p className="text-sm text-gray-500 mt-1">Productos directos desde el proveedor, sin intermediarios</p>
+          </button>
+
+          <button
+            onClick={() => router.push('/combos')}
+            className="w-full bg-white border border-gray-200 rounded-2xl p-6 text-left hover:border-[#1c2b4b] hover:shadow-sm transition-all"
+          >
+            <p className="text-xs font-bold uppercase tracking-widest text-purple-600 mb-1">Combos</p>
+            <p className="text-lg font-bold text-gray-900">Combos</p>
+            <p className="text-sm text-gray-500 mt-1">Conjuntos de productos a precio especial</p>
           </button>
         </div>
       </div>
