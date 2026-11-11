@@ -102,15 +102,19 @@ export default function LoginPage() {
             La primera vez, usá tu NSU como contraseña.
           </p>
 
-          <div className="mt-6 pt-5 border-t border-gray-100 text-center">
-            <p className="text-xs text-gray-400 mb-2">¿No sos socio?</p>
-            <a
-              href="/vino/"
-              className="inline-block text-sm font-semibold text-amber-600 hover:text-amber-700 transition-colors"
-            >
-              Conocé el Vino Juntos con etiqueta personalizada →
-            </a>
-          </div>
+          <a
+            href="/vino/"
+            className="mt-6 flex items-center gap-3 rounded-xl bg-[#1c2b4b] px-4 py-3.5 hover:opacity-90 transition-opacity"
+          >
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500 text-lg">
+              🍷
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] font-bold tracking-widest uppercase text-amber-400/70 mb-0.5">Vino Personalizado</p>
+              <p className="text-sm font-semibold text-white leading-tight">Vino Juntos con etiqueta a tu medida</p>
+            </div>
+            <span className="text-amber-400 font-bold text-sm shrink-0">Ver →</span>
+          </a>
         </div>
       </div>
     </div>
