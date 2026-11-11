@@ -122,6 +122,28 @@ footer{background:var(--wine2);color:var(--dim);font-size:11px;letter-spacing:.0
   padding-left:max(24px,env(safe-area-inset-left,0px));
   padding-right:max(24px,env(safe-area-inset-right,0px));
   padding-bottom:max(20px,env(safe-area-inset-bottom,0px))}
+/* Progress */
+.prog-wrap{margin-top:28px}
+.prog-num{font-family:var(--serif);font-size:clamp(52px,14vw,80px);font-weight:700;line-height:1;color:var(--glt);font-variant-numeric:tabular-nums;display:block}
+.prog-label{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:6px;display:block}
+.prog-bar-bg{height:6px;background:rgba(255,255,255,.12);margin-top:20px;overflow:hidden}
+.prog-bar-fill{height:100%;background:linear-gradient(to right,var(--gold),var(--glt));transition:width 1s cubic-bezier(.25,.46,.45,.94)}
+.prog-sub{font-size:12px;color:var(--dim);margin-top:12px;letter-spacing:.04em}
+/* Simulator */
+.sim-wrap{margin-top:32px;padding-top:28px;border-top:1px solid rgba(255,255,255,.12)}
+.sim-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 16px;display:block}
+.sim-row{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.sim-btn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);border:none;color:var(--od);font-size:22px;line-height:1;cursor:pointer;transition:background .15s;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.sim-btn:hover{background:rgba(255,255,255,.24)}
+.sim-mid{flex:1;text-align:center}
+.sim-input{background:transparent;border:none;border-bottom:2px solid var(--glt);color:var(--glt);font-family:var(--serif);font-size:clamp(36px,10vw,52px);font-weight:700;width:3ch;text-align:center;outline:none;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.sim-input::-webkit-outer-spin-button,.sim-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.sim-unit{display:block;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:4px}
+.sim-effect{font-size:13px;color:rgba(238,229,208,.75);margin:0 0 20px;text-align:center;min-height:1.5em}
+.sim-effect strong{color:var(--od);font-weight:700}
+.btn-sim-cta{background:var(--glt);color:var(--wine2);font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:14px 24px;border:none;cursor:pointer;transition:opacity .15s;width:100%}
+.btn-sim-cta:hover{opacity:.88}
+.prog-label-real{font-size:11px;color:var(--dim);letter-spacing:.06em;margin-top:4px;display:block}
 </style>
 </head>
 <body>
@@ -137,8 +159,35 @@ footer{background:var(--wine2);color:var(--dim);font-size:11px;letter-spacing:.0
 <section class="sec">
   <div class="w">
     <p class="ey ey-l">¿Por qué este vino?</p>
-    <h2 class="h2">Una venta entre amigos,<br>para el SUM del Club de Campo.</h2>
-    <p class="bod">El <strong>Vino Juntos</strong> —Malbec Reserva 2024 de PRÓ-VIDA— ahora con etiqueta diseñada a tu medida. Cada caja contribuye directamente a <strong>la construcción del SUM del Club de Campo de Mendoza</strong>. Para los socios, una forma de sumar. Para quienes vienen de afuera, un Malbec con historia.</p>
+    <h2 class="h2">Una campaña entre amigos,<br>a beneficio del Club de Campo.</h2>
+    <p class="bod">El <strong>Vino Juntos</strong> —Malbec Reserva 2024 de PRÓ-VIDA— con etiqueta diseñada a tu medida. Cada pedido es un aporte directo al Club de Campo de Mendoza. Para los socios, una forma concreta de sumar. Para quienes vienen de afuera, un Malbec con historia.</p>
+    <p class="bod">Ya sea que tengas un diseño en mente, una idea o arranques de cero — en todos los casos lo hacemos juntos.</p>
+  </div>
+</section>
+
+<section class="sec-dark">
+  <div class="w">
+    <p class="ey ey-d">¿Cómo vamos?</p>
+    <div class="prog-wrap">
+      <span class="prog-num" id="prog-count">—</span>
+      <span class="prog-label" id="prog-label-main">cajas vendidas hasta ahora</span>
+      <span class="prog-label-real" id="prog-label-real" style="display:none"></span>
+      <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-fill" style="width:0%"></div></div>
+      <p class="prog-sub" id="prog-sub">de 500 cajas · objetivo de la campaña</p>
+    </div>
+    <div class="sim-wrap" id="sim-wrap" style="display:none">
+      <span class="sim-label">Simulá tu aporte</span>
+      <div class="sim-row">
+        <button class="sim-btn" onclick="simAdjust(-10)" aria-label="Menos 10">−</button>
+        <div class="sim-mid">
+          <input type="number" class="sim-input" id="sim-input" value="10" min="1" max="490" inputmode="numeric" oninput="simUpdate()">
+          <span class="sim-unit">cajas</span>
+        </div>
+        <button class="sim-btn" onclick="simAdjust(10)" aria-label="Más 10">+</button>
+      </div>
+      <p class="sim-effect" id="sim-effect" style="display:none">Con tu pedido llegamos a <strong id="sim-total">—</strong> cajas</p>
+      <button class="btn-sim-cta" onclick="openQ()">Sumar mis <span id="sim-btn-n">10</span> cajas →</button>
+    </div>
   </div>
 </section>
 
@@ -392,6 +441,61 @@ function toggleDirect(btn){
   el.hidden=!el.hidden;
   btn.textContent=el.hidden?'Contacto directo':'Ocultar contacto';
 }
+
+// Progress + simulator
+var _base=0,_obj=500;
+
+async function loadProgress(){
+  try{
+    const r=await fetch('/api/vino/progreso');
+    if(!r.ok) throw 0;
+    const d=await r.json();
+    _base=d.cajas??0; _obj=d.objetivo??500;
+  }catch{_base=0;_obj=500;}
+  renderProg(_base,0);
+  document.getElementById('sim-wrap').style.display='';
+}
+
+function renderProg(real,extra){
+  const total=real+extra;
+  const realPct=Math.min(100,(_obj>0?real/_obj*100:0));
+  const totPct=Math.min(100,(_obj>0?total/_obj*100:0));
+  const fill=document.getElementById('prog-fill');
+  fill.style.width=Math.max(totPct,0.4)+'%';
+  if(extra>0){
+    const frac=(totPct>0?(realPct/totPct*100).toFixed(1):0);
+    fill.style.background='linear-gradient(to right,var(--gold) '+frac+'%,rgba(212,165,69,0.4) '+frac+'%)';
+    document.getElementById('prog-count').textContent=total;
+    document.getElementById('prog-label-main').textContent='cajas con tu pedido';
+    const lr=document.getElementById('prog-label-real');
+    lr.textContent='Hoy: '+real+' vendidas';
+    lr.style.display='';
+  }else{
+    fill.style.background='linear-gradient(to right,var(--gold),var(--glt))';
+    document.getElementById('prog-count').textContent=real;
+    document.getElementById('prog-label-main').textContent='cajas vendidas hasta ahora';
+    document.getElementById('prog-label-real').style.display='none';
+  }
+}
+
+function simUpdate(){
+  const inp=document.getElementById('sim-input');
+  let v=parseInt(inp.value)||0;
+  v=Math.max(1,Math.min(490,v));
+  inp.value=v;
+  renderProg(_base,v);
+  document.getElementById('sim-total').textContent=_base+v;
+  document.getElementById('sim-btn-n').textContent=v;
+  document.getElementById('sim-effect').style.display='';
+}
+
+function simAdjust(delta){
+  const inp=document.getElementById('sim-input');
+  inp.value=Math.max(1,Math.min(490,(parseInt(inp.value)||10)+delta));
+  simUpdate();
+}
+
+loadProgress();
 </script>
 </body>
 </html>
