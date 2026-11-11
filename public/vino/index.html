@@ -421,6 +421,9 @@ function submitD(){
   const er=document.getElementById('qer');
   if(!A.nombre||!A.tel||!A.ciudad){er.classList.add('on');return;}
   er.classList.remove('on');
+  fetch('/api/vino/lead',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({nombre:A.nombre,apellido:A.apellido,tel:A.tel,ciudad:A.ciudad,ocasion:A.ocasion,diseno:A.diseno})
+  }).catch(()=>{});
   goS(4);
 }
 
