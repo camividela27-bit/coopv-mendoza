@@ -1,0 +1,389 @@
+<title>Vino Juntos Personalizado</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#EEE5D0;--bg2:#E3D9C1;--wine:#3A1212;--wine2:#521B1B;
+  --gold:#B8862A;--glt:#D4A545;--fg:#2A1608;--fg2:#6B4E35;
+  --od:#EEE5D0;--dim:rgba(238,229,208,.58);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Montserrat',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.65}
+.w{max-width:640px;margin:0 auto;
+  padding-left:max(24px,env(safe-area-inset-left,0px));
+  padding-right:max(24px,env(safe-area-inset-right,0px))}
+.sec{padding-block:52px}
+.sec-alt{background:var(--bg2);padding-block:52px}
+.sec-dark{background:var(--wine);color:var(--od);padding-block:52px}
+.ey{display:flex;align-items:center;gap:12px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:20px}
+.ey::before,.ey::after{content:'';flex:1;height:1px;opacity:.35;background:currentColor}
+.ey-l{color:var(--gold)}.ey-d{color:var(--glt)}
+.h2{font-family:var(--serif);font-size:clamp(28px,7vw,42px);font-weight:600;line-height:1.12;text-wrap:balance;margin:0 0 20px}
+.bod{color:var(--fg2);font-size:15px;line-height:1.75;max-width:520px;margin:0}
+.bod+.bod{margin-top:14px}
+.bod strong{color:var(--fg);font-weight:600}
+hr{border:none;height:1px;margin:0;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:.3}
+/* Hero */
+.hero{background:var(--wine);padding-block:60px 52px}
+.hey{color:var(--glt);font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.hey::before,.hey::after{content:'';flex:1;height:1px;background:var(--glt);opacity:.35}
+.hero h1{font-family:var(--serif);font-size:clamp(44px,11vw,72px);font-weight:600;line-height:1.05;text-wrap:balance;color:var(--od);margin:0 0 22px}
+.hero h1 em{font-style:italic;color:var(--glt)}
+.hero-sub{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);line-height:1.9}
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px}
+@media(max-width:520px){.steps{grid-template-columns:1fr;gap:20px}}
+.sn{width:30px;height:30px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+/* Occasions */
+.occ{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:32px;outline:2px solid var(--gold);outline-offset:-1px}
+.oi{background:var(--bg);padding:18px 16px;display:flex;align-items:center;gap:14px}
+.on{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--fg);line-height:1.4}
+/* Price */
+.plb{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:4px}
+.prc{font-family:var(--serif);font-size:clamp(48px,13vw,76px);font-weight:700;line-height:1;color:var(--glt);font-variant-numeric:tabular-nums}
+.pru{font-size:14px;color:var(--dim);margin-left:4px}
+.pl{margin-top:24px;display:grid;gap:14px}
+.pi{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:var(--od)}
+.pi strong{color:var(--glt);font-weight:600}
+/* CTA section */
+.btn-p{background:var(--wine);color:var(--od);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:16px 28px;border:none;cursor:pointer;transition:opacity .15s}
+.btn-p:hover{opacity:.88}
+.btn-s{background:transparent;color:var(--fg);font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.06em;padding:16px 20px;cursor:pointer;border:1.5px solid var(--fg2);transition:border-color .15s,color .15s}
+.btn-s:hover{border-color:var(--wine);color:var(--wine)}
+.brow{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;align-items:center}
+/* Contact cards */
+.ccg{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+@media(max-width:480px){.ccg{grid-template-columns:1fr}}
+.cc{background:var(--wine);color:var(--od);padding:24px 20px;display:flex;flex-direction:column;gap:4px}
+.cn{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--od);line-height:1.2;margin:0}
+.ct{font-size:12px;font-weight:500;letter-spacing:.05em;color:var(--dim);margin:0 0 18px}
+.wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;text-decoration:none;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:10px 16px;transition:opacity .15s;align-self:flex-start}
+.wa:hover{opacity:.85}
+/* Sticky */
+#stk{position:fixed;bottom:0;left:0;right:0;z-index:50;
+  padding:12px max(20px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));
+  background:linear-gradient(to top,var(--bg) 60%,transparent);
+  opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;pointer-events:none}
+#stk.on{opacity:1;transform:none;pointer-events:auto}
+#stk button{width:100%;max-width:400px;display:block;margin:0 auto;background:var(--wine);color:var(--od);font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:16px;border:none;cursor:pointer;box-shadow:0 4px 24px rgba(58,18,18,.35);transition:opacity .15s}
+#stk button:hover{opacity:.9}
+/* Quiz overlay */
+#qz{position:fixed;inset:0;background:var(--wine);color:var(--od);z-index:100;
+  transform:translateY(100%);transition:transform .4s cubic-bezier(.25,.46,.45,.94);
+  overflow-y:auto;padding-top:max(0px,env(safe-area-inset-top,0px))}
+#qz.on{transform:none}
+.qhd{position:sticky;top:0;background:var(--wine);z-index:10;
+  display:flex;align-items:center;gap:12px;
+  padding:16px max(24px,env(safe-area-inset-right,0px)) 16px max(24px,env(safe-area-inset-left,0px))}
+.qbk,.qcl{background:none;border:none;color:var(--od);font-size:18px;cursor:pointer;padding:4px 8px;opacity:.7;transition:opacity .15s;line-height:1}
+.qbk:hover,.qcl:hover{opacity:1}
+.dots{display:flex;gap:6px;flex:1;justify-content:center}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--dim);transition:background .2s}
+.dot.on{background:var(--glt)}
+.qbd{max-width:560px;margin:0 auto;
+  padding:28px max(24px,env(safe-area-inset-right,0px)) 72px max(24px,env(safe-area-inset-left,0px))}
+.qst{animation:fi .22s ease-out}
+@keyframes fi{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.qlb{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:0 0 12px}
+.qti{font-family:var(--serif);font-size:clamp(28px,8vw,46px);font-weight:600;line-height:1.1;text-wrap:balance;color:var(--od);margin:0 0 28px}
+/* Chips */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cg1{grid-template-columns:1fr}
+.chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:var(--od);font-family:var(--sans);padding:16px 14px;cursor:pointer;text-align:left;transition:background .15s,border-color .15s;display:flex;flex-direction:column;gap:4px}
+.chip:hover{background:rgba(255,255,255,.14)}
+.chip strong{font-size:13px;font-weight:700}
+.chip span{font-size:12px;opacity:.75}
+/* Form */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+@media(max-width:420px){.fg{grid-template-columns:1fr}}
+.qi{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:var(--od);font-family:var(--sans);font-size:15px;padding:14px 16px;width:100%;outline:none;transition:border-color .15s;-webkit-appearance:none;border-radius:0}
+.qi::placeholder{color:var(--dim)}
+.qi:focus{border-color:var(--glt)}
+.qer{font-size:12px;color:#FF9B9B;margin:0 0 16px;display:none}
+.qer.on{display:block}
+.qnx{background:var(--gold);color:#fff;font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:16px 32px;border:none;cursor:pointer;margin-top:4px;transition:opacity .15s}
+.qnx:hover{opacity:.9}
+/* Final */
+.fck{width:52px;height:52px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:24px}
+.fds{color:var(--dim);font-size:14px;line-height:1.65;margin:0 0 32px;max-width:400px}
+.wag{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+@media(max-width:480px){.wag{grid-template-columns:1fr}}
+.wab{display:flex;align-items:center;justify-content:center;gap:8px;background:#25D366;color:#fff;text-decoration:none;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:14px 20px;transition:opacity .15s}
+.wab:hover{opacity:.85}
+.fnote{font-size:11px;color:var(--dim);letter-spacing:.04em}
+footer{background:var(--wine2);color:var(--dim);font-size:11px;letter-spacing:.08em;text-transform:uppercase;text-align:center;padding-block:20px;
+  padding-left:max(24px,env(safe-area-inset-left,0px));
+  padding-right:max(24px,env(safe-area-inset-right,0px));
+  padding-bottom:max(20px,env(safe-area-inset-bottom,0px))}
+</style>
+
+<section class="hero">
+  <div class="w">
+    <p class="hey">Regalos que dejan huella</p>
+    <h1>Un buen vino.<br>Una etiqueta<br>que cuenta<br><em>tu historia.</em></h1>
+    <p class="hero-sub">Vinos personalizados · Malbec Reserva 2024<br>Empresas, eventos y celebraciones</p>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="w">
+    <p class="ey ey-l">¿Por qué este vino?</p>
+    <h2 class="h2">Una venta entre amigos,<br>para el SUM del Club de Campo.</h2>
+    <p class="bod">El <strong>Vino Juntos</strong> —Malbec Reserva 2024 de PRÓ-VIDA— ahora con etiqueta diseñada a tu medida. Cada caja contribuye directamente a <strong>la construcción del SUM del Club de Campo de Mendoza</strong>. Para los socios, una forma de sumar. Para quienes vienen de afuera, un Malbec con historia.</p>
+  </div>
+</section>
+
+<hr>
+
+<section class="sec-alt">
+  <div class="w">
+    <p class="ey ey-l">¿Cómo funciona?</p>
+    <div class="steps">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="sn">1</div>
+        <span style="font-size:22px">🍷</span>
+        <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg);margin:0">Elegí tu vino</p>
+        <p style="font-size:13px;color:var(--fg2);margin:0;line-height:1.55">Malbec Reserva 2024, Bodega Mendoza</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="sn">2</div>
+        <span style="font-size:22px">🎨</span>
+        <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg);margin:0">Diseñá tu etiqueta</p>
+        <p style="font-size:13px;color:var(--fg2);margin:0;line-height:1.55">Tu logo, fotos, nombres o mensaje personalizado</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="sn">3</div>
+        <span style="font-size:22px">📦</span>
+        <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg);margin:0">Recibí tu pedido</p>
+        <p style="font-size:13px;color:var(--fg2);margin:0;line-height:1.55">Listo para regalar y disfrutar</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<section class="sec">
+  <div class="w">
+    <p class="ey ey-l">Ideal para</p>
+    <div class="occ">
+      <div class="oi"><span style="font-size:18px;flex-shrink:0">💼</span><p class="on">Regalos empresariales</p></div>
+      <div class="oi"><span style="font-size:18px;flex-shrink:0">🥂</span><p class="on">Eventos sociales</p></div>
+      <div class="oi"><span style="font-size:18px;flex-shrink:0">🎂</span><p class="on">Cumpleaños y aniversarios</p></div>
+      <div class="oi"><span style="font-size:18px;flex-shrink:0">💍</span><p class="on">Casamientos</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-dark">
+  <div class="w">
+    <p class="ey ey-d">El pedido</p>
+    <span class="plb">Precio por botella</span>
+    <div><span class="prc">$&thinsp;7.500</span><span class="pru">/ botella</span></div>
+    <div class="pl">
+      <div class="pi"><span>📦</span><span>Pedido mínimo: <strong>10 cajas de 6 botellas</strong> (60 botellas)</span></div>
+    </div>
+    <p style="margin-top:24px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim)">Malbec Reserva 2024 · Bodega Mendoza</p>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="w">
+    <p class="ey ey-l">¿Te interesa?</p>
+    <h2 class="h2">Contanos un poco y<br>coordinamos juntos.</h2>
+    <p class="bod">Dos minutos, cuatro preguntas. Te contactamos a la brevedad.</p>
+    <div class="brow">
+      <button class="btn-p" onclick="openQ()">Completar formulario →</button>
+      <button class="btn-s" onclick="toggleDirect(this)">Contacto directo</button>
+    </div>
+    <div id="direct" hidden style="margin-top:28px">
+      <div class="ccg">
+        <div class="cc">
+          <p class="cn">Daniel Martínez</p>
+          <p class="ct">+54 9 261 507-0893</p>
+          <a class="wa" href="https://wa.me/5492615070893?text=Hola%20Daniel%2C%20me%20interesa%20el%20Vino%20Juntos%20con%20etiqueta%20personalizada." target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Escribir a Daniel
+          </a>
+        </div>
+        <div class="cc">
+          <p class="cn">Leonardo Quiros</p>
+          <p class="ct">+54 9 261 404-8003</p>
+          <a class="wa" href="https://wa.me/5492614048003?text=Hola%20Leonardo%2C%20me%20interesa%20el%20Vino%20Juntos%20con%20etiqueta%20personalizada." target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Escribir a Leonardo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>Malbec Reserva 2024 &nbsp;·&nbsp; Bodega Mendoza &nbsp;·&nbsp; PRÓ-VIDA</footer>
+
+<div id="stk"><button onclick="openQ()">Me interesa →</button></div>
+
+<!-- QUIZ -->
+<div id="qz" role="dialog" aria-modal="true" aria-label="Formulario de contacto">
+  <div class="qhd">
+    <button class="qbk" id="qbk" onclick="qBack()" aria-label="Volver" style="visibility:hidden">←</button>
+    <div class="dots">
+      <div class="dot" id="d0"></div><div class="dot" id="d1"></div>
+      <div class="dot" id="d2"></div><div class="dot" id="d3"></div>
+    </div>
+    <button class="qcl" onclick="closeQ()" aria-label="Cerrar">✕</button>
+  </div>
+  <div class="qbd">
+
+    <div class="qst" id="q1">
+      <p class="qlb">1 de 4</p>
+      <h2 class="qti">¿Para qué ocasión es?</h2>
+      <div class="cg">
+        <button class="chip" onclick="pick('ocasion','Cumpleaños')">🎂 Cumpleaños</button>
+        <button class="chip" onclick="pick('ocasion','Aniversario')">💑 Aniversario</button>
+        <button class="chip" onclick="pick('ocasion','Casamiento')">💍 Casamiento</button>
+        <button class="chip" onclick="pick('ocasion','Regalo empresarial')">💼 Regalo empresarial</button>
+        <button class="chip" onclick="pick('ocasion','Fin de año')">🥂 Fin de año</button>
+        <button class="chip" onclick="pick('ocasion','Otra ocasión')">✦ Otra ocasión</button>
+      </div>
+    </div>
+
+    <div class="qst" id="q2" hidden>
+      <p class="qlb">2 de 4</p>
+      <h2 class="qti">¿Cómo estás con el diseño de tu etiqueta?</h2>
+      <div class="cg cg1">
+        <button class="chip" onclick="pick('diseno','Tengo mi diseño listo')">
+          <strong>Tengo mi diseño listo</strong>
+          <span>Solo necesito adaptarlo a la botella</span>
+        </button>
+        <button class="chip" onclick="pick('diseno','Necesito orientación')">
+          <strong>Necesito orientación</strong>
+          <span>Tengo ideas pero necesito ayuda</span>
+        </button>
+        <button class="chip" onclick="pick('diseno','Necesito ayuda completa')">
+          <strong>Necesito ayuda completa</strong>
+          <span>Arranco de cero</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="qst" id="q3" hidden>
+      <p class="qlb">3 de 4</p>
+      <h2 class="qti">Tus datos</h2>
+      <div class="fg">
+        <input class="qi" id="fn" type="text" placeholder="Nombre *" autocomplete="given-name">
+        <input class="qi" id="fa" type="text" placeholder="Apellido" autocomplete="family-name">
+        <input class="qi" id="ft" type="tel" placeholder="Teléfono *" autocomplete="tel">
+        <input class="qi" id="fc" type="text" placeholder="Ciudad / Provincia *">
+      </div>
+      <p class="qer" id="qer">Completá nombre, teléfono y ciudad para continuar.</p>
+      <button class="qnx" onclick="submitD()">Continuar →</button>
+    </div>
+
+    <div class="qst" id="q4" hidden>
+      <p class="qlb">4 de 4</p>
+      <h2 class="qti">¿Cómo preferís el contacto?</h2>
+      <div class="cg cg1">
+        <button class="chip" onclick="pick('pref','escriben')">
+          <strong>Prefiero que me escriban</strong>
+          <span>Daniel o Leonardo te contactan pronto</span>
+        </button>
+        <button class="chip" onclick="pick('pref','escribo')">
+          <strong>Prefiero escribir yo por WhatsApp</strong>
+          <span>Abrimos el chat con tu info ya lista</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="qst" id="q5" hidden>
+      <div class="fck">✓</div>
+      <p class="qlb" style="margin-top:0">¡Listo!</p>
+      <h2 class="qti" id="ftit">Perfecto.</h2>
+      <p class="fds" id="fdes"></p>
+      <div class="wag">
+        <a id="wad" class="wab" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Escribir a Daniel
+        </a>
+        <a id="wal" class="wab" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Escribir a Leonardo
+        </a>
+      </div>
+      <p class="fnote">Daniel +54 9 261 507-0893 · Leonardo +54 9 261 404-8003</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const A={ocasion:'',diseno:'',nombre:'',apellido:'',tel:'',ciudad:'',pref:''};
+let step=0;
+
+setTimeout(()=>document.getElementById('stk').classList.add('on'),700);
+
+function openQ(){
+  document.getElementById('qz').classList.add('on');
+  document.body.style.overflow='hidden';
+  goS(1);
+}
+function closeQ(){
+  document.getElementById('qz').classList.remove('on');
+  document.body.style.overflow='';
+}
+function qBack(){ if(step>1&&step<5) goS(step-1); }
+
+function goS(n){
+  document.querySelectorAll('.qst').forEach(e=>{e.hidden=true;});
+  const el=document.getElementById('q'+n);
+  if(!el) return;
+  el.hidden=false;
+  el.style.animation='none';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{el.style.animation='';}));
+  step=n;
+  for(let i=0;i<4;i++){
+    const d=document.getElementById('d'+i);
+    if(d) d.classList.toggle('on',i<n&&n<=4);
+  }
+  document.getElementById('qbk').style.visibility=(n>1&&n<5)?'visible':'hidden';
+  document.getElementById('qz').scrollTop=0;
+}
+
+function pick(key,val){
+  A[key]=val;
+  if(step<4) goS(step+1);
+  else buildFinal();
+}
+
+function submitD(){
+  A.nombre=document.getElementById('fn').value.trim();
+  A.apellido=document.getElementById('fa').value.trim();
+  A.tel=document.getElementById('ft').value.trim();
+  A.ciudad=document.getElementById('fc').value.trim();
+  const er=document.getElementById('qer');
+  if(!A.nombre||!A.tel||!A.ciudad){er.classList.add('on');return;}
+  er.classList.remove('on');
+  goS(4);
+}
+
+function buildFinal(){
+  document.getElementById('ftit').textContent='¡Listo, '+A.nombre+'!';
+  document.getElementById('fdes').textContent=A.pref==='escriben'
+    ?'Enviá este mensaje por WhatsApp y Daniel o Leonardo te contactarán pronto.'
+    :'¡Perfecto! Tocá para abrir WhatsApp con tu consulta ya preparada.';
+  const msg=`Hola! Me interesa el Vino Juntos con etiqueta personalizada 🍷\n\n📌 Ocasión: ${A.ocasion}\n🎨 Diseño: ${A.diseno}\n👤 ${A.nombre}${A.apellido?' '+A.apellido:''}\n📱 ${A.tel}\n📍 ${A.ciudad}${A.pref==='escriben'?'\n\n¿Me pueden contactar cuando puedan? ¡Gracias!':''}`;
+  const enc=encodeURIComponent(msg);
+  document.getElementById('wad').href='https://wa.me/5492615070893?text='+enc;
+  document.getElementById('wal').href='https://wa.me/5492614048003?text='+enc;
+  goS(5);
+}
+
+function toggleDirect(btn){
+  const el=document.getElementById('direct');
+  el.hidden=!el.hidden;
+  btn.textContent=el.hidden?'Contacto directo':'Ocultar contacto';
+}
+</script>
