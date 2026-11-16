@@ -75,7 +75,7 @@ export default function ElegirModoPage() {
               >
                 <div className="text-2xl mb-2">📦</div>
                 <p className="font-bold text-gray-900 text-base group-hover:text-green-700">
-                  Portal de proveedores
+                  Portal de productores
                 </p>
                 <p className="text-sm text-gray-500 mt-0.5">
                   Ver pedidos y reporte de ventas

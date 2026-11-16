@@ -92,7 +92,7 @@ function descargarCSV(grupos: GrupoProductor[]) {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `reporte-proveedores-${new Date().toISOString().slice(0, 10)}.csv`
+  a.download = `reporte-productores-${new Date().toISOString().slice(0, 10)}.csv`
   a.click()
   URL.revokeObjectURL(url)
 }
@@ -133,7 +133,7 @@ export default function ReportePage() {
   return (
     <div className="p-5">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="font-bold text-gray-900 text-lg">Reporte de proveedores</h1>
+        <h1 className="font-bold text-gray-900 text-lg">Reporte de productores</h1>
         {grupos.length > 0 && (
           <button
             onClick={() => descargarCSV(grupos)}
@@ -196,7 +196,7 @@ export default function ReportePage() {
               </p>
             </div>
             <div className="text-right">
-              <p className="text-white/60 text-xs">{grupos.length} proveedores</p>
+              <p className="text-white/60 text-xs">{grupos.length} productores</p>
             </div>
           </div>
         </>

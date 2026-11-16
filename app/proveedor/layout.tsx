@@ -20,7 +20,7 @@ export default async function ProveedorLayout({ children }: { children: React.Re
     <div className="h-screen flex flex-col bg-[#1c2b4b] overflow-hidden">
       <header className="flex-shrink-0 px-4 py-3 flex items-center justify-between border-b border-white/10">
         <span className="text-amber-400 font-bold text-base tracking-wide">COOPV</span>
-        <span className="text-white/50 text-sm">Proveedores</span>
+        <span className="text-white/50 text-sm">Productores</span>
       </header>
 
       <div className="flex flex-1 overflow-hidden">

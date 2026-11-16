@@ -38,9 +38,9 @@ export default function ElegirCatalogoPage() {
             onClick={() => router.push('/directo')}
             className="w-full bg-white border border-gray-200 rounded-2xl p-6 text-left hover:border-[#1c2b4b] hover:shadow-sm transition-all"
           >
-            <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1">Directo de Proveedor</p>
-            <p className="text-lg font-bold text-gray-900">Directo de Proveedor</p>
-            <p className="text-sm text-gray-500 mt-1">Productos directos desde el proveedor, sin intermediarios</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1">Directo de Productor</p>
+            <p className="text-lg font-bold text-gray-900">Directo de Productor</p>
+            <p className="text-sm text-gray-500 mt-1">Productos directos desde el productor, sin intermediarios</p>
           </button>
 
           <button
